@@ -1,0 +1,346 @@
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<style>
+    .admin-dashboard-page {
+        max-width: 1250px;
+        margin: 35px auto 70px;
+        padding: 20px;
+        color: #17243b;
+    }
+
+    .admin-dashboard-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 42px;
+        margin-bottom: 28px;
+        border: 1px solid rgba(255,255,255,.85);
+        border-radius: 30px;
+        background:
+            radial-gradient(circle at 90% 10%, rgba(230,190,110,.27), transparent 32%),
+            linear-gradient(135deg, rgba(255,255,255,.9), rgba(230,240,255,.75));
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        box-shadow: 0 18px 50px rgba(31,55,100,.09);
+    }
+
+    .admin-dashboard-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 13px;
+        margin-bottom: 16px;
+        border-radius: 30px;
+        background: rgba(35,91,170,.09);
+        color: #2459a1;
+        font-size: .72rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+    }
+
+    .admin-dashboard-eyebrow span {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #d7a64b;
+    }
+
+    .admin-dashboard-hero h1 {
+        margin: 0;
+        color: #152b4c;
+        font-size: clamp(2.1rem, 5vw, 3.4rem);
+        font-weight: 850;
+        letter-spacing: -1.6px;
+    }
+
+    .admin-dashboard-hero h1 span {
+        color: #bd8a35;
+    }
+
+    .admin-dashboard-hero p {
+        max-width: 650px;
+        margin: 12px 0 0;
+        color: #66758c;
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .admin-dashboard-label {
+        margin: 35px 3px 18px;
+    }
+
+    .admin-dashboard-label h2 {
+        margin: 0;
+        color: #1b3459;
+        font-size: 1.35rem;
+        font-weight: 850;
+    }
+
+    .admin-dashboard-label p {
+        margin: 5px 0 0;
+        color: #7b879a;
+        font-size: .88rem;
+    }
+
+    .admin-dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .admin-panel-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-height: 295px;
+        overflow: hidden;
+        padding: 30px;
+        border: 1px solid rgba(255,255,255,.9);
+        border-radius: 26px;
+        background: rgba(255,255,255,.77);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        box-shadow: 0 12px 35px rgba(31,55,100,.07);
+        color: #18304b;
+        text-decoration: none;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .admin-panel-card::after {
+        content: "";
+        position: absolute;
+        width: 170px;
+        height: 170px;
+        right: -65px;
+        top: -65px;
+        border-radius: 50%;
+        background: rgba(215,166,75,.1);
+        transition: transform .35s ease;
+    }
+
+    .admin-panel-card:hover {
+        transform: translateY(-6px);
+        color: #18304b;
+        box-shadow: 0 20px 45px rgba(31,55,100,.13);
+    }
+
+    .admin-panel-card:hover::after {
+        transform: scale(1.4);
+    }
+
+    .admin-card-icon {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 65px;
+        height: 65px;
+        margin-bottom: 25px;
+        border: 1px solid rgba(255,255,255,.85);
+        border-radius: 20px;
+        background: linear-gradient(135deg, #e8f1ff, #dceaff);
+        color: #245ca8;
+        font-size: 30px;
+        box-shadow: 0 8px 20px rgba(36,92,168,.09);
+    }
+
+    .admin-card-icon.gold {
+        background: linear-gradient(135deg, #fff4dc, #f8e7c3);
+        color: #a97825;
+        box-shadow: 0 8px 20px rgba(189,138,53,.1);
+    }
+
+    .admin-panel-card h3 {
+        position: relative;
+        z-index: 1;
+        margin: 0 0 10px;
+        color: #1b3459;
+        font-size: 1.35rem;
+        font-weight: 850;
+    }
+
+    .admin-panel-card p {
+        position: relative;
+        z-index: 1;
+        max-width: 420px;
+        margin: 0 0 25px;
+        color: #748198;
+        font-size: .93rem;
+        line-height: 1.7;
+    }
+
+    .admin-card-link {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin-top: auto;
+        color: #245ca8;
+        font-size: .88rem;
+        font-weight: 850;
+    }
+
+    .admin-card-link span {
+        transition: transform .2s ease;
+    }
+
+    .admin-panel-card:hover .admin-card-link span {
+        transform: translateX(5px);
+    }
+
+    .admin-dashboard-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 30px;
+        padding: 20px 23px;
+        border: 1px solid rgba(255,255,255,.8);
+        border-radius: 19px;
+        background: rgba(255,255,255,.58);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+
+    .admin-dashboard-footer p {
+        margin: 0;
+        color: #7b879a;
+        font-size: .86rem;
+    }
+
+    .admin-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #245ca8;
+        font-weight: 800;
+        text-decoration: none;
+        transition: gap .2s ease;
+    }
+
+    .admin-back:hover {
+        color: #173f79;
+        gap: 12px;
+    }
+
+    @@media (max-width: 700px) {
+        .admin-dashboard-page {
+            margin-top: 20px;
+            padding: 12px;
+        }
+
+        .admin-dashboard-hero {
+            padding: 28px 23px;
+            border-radius: 24px;
+        }
+
+        .admin-dashboard-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .admin-panel-card {
+            min-height: 260px;
+            padding: 24px;
+        }
+
+        .admin-dashboard-footer {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .admin-panel-card,
+        .admin-panel-card::after,
+        .admin-card-link span,
+        .admin-back {
+            transition: none;
+        }
+    }
+</style>
+
+<section class="admin-dashboard-page">
+
+    <header class="admin-dashboard-hero">
+        <div class="admin-dashboard-eyebrow">
+            <span></span>
+            LOCALBITE ADMINISTRATION
+        </div>
+
+        <h1>Welcome to your <span>Control Centre.</span></h1>
+
+        <p>
+            Manage your restaurant from one place.
+            Keep your menu updated, monitor incoming orders
+            and take care of every customer.
+        </p>
+    </header>
+
+    <div class="admin-dashboard-label">
+        <h2>Restaurant Management</h2>
+        <p>Choose an area to manage your restaurant.</p>
+    </div>
+
+    <div class="admin-dashboard-grid">
+
+        <a asp-controller="AdminMenu"
+           asp-action="Index"
+           class="admin-panel-card">
+
+            <div class="admin-card-icon">
+                <span aria-hidden="true">🍽</span>
+            </div>
+
+            <h3>Manage Menu</h3>
+
+            <p>
+                Add new meals, update prices, edit descriptions
+                and control which meals are available to customers.
+            </p>
+
+            <span class="admin-card-link">
+                Open Menu Management
+                <span>→</span>
+            </span>
+        </a>
+
+        <a asp-controller="AdminOrders"
+           asp-action="Index"
+           class="admin-panel-card">
+
+            <div class="admin-card-icon gold">
+                <span aria-hidden="true">📦</span>
+            </div>
+
+            <h3>Manage Orders</h3>
+
+            <p>
+                Review incoming orders, update order statuses
+                and keep track of customer deliveries.
+            </p>
+
+            <span class="admin-card-link">
+                Open Order Management
+                <span>→</span>
+            </span>
+        </a>
+
+    </div>
+
+    <footer class="admin-dashboard-footer">
+        <p>LocalBite Administration · Your restaurant, all in one place.</p>
+
+        <a asp-controller="Dashboard"
+           asp-action="Index"
+           class="admin-back">
+            ← Back to My Dashboard
+        </a>
+    </footer>
+
+</section>

@@ -1,0 +1,14 @@
+# Local configuration and secrets
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json
+
+# User uploads
+wwwroot/uploads/
+
+# Build files
+bin/
+obj/
+
+# IDE files
+.vs/

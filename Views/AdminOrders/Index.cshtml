@@ -1,0 +1,708 @@
+
+@model IEnumerable<LocalBite.Models.Order>
+
+@{
+    ViewData["Title"] = "Manage Orders";
+
+    var statuses = new[]
+    {
+        "Placed",
+        "Accepted",
+        "Preparing",
+        "Ready for delivery",
+        "Out for delivery",
+        "Delivered",
+        "Cancelled"
+    };
+
+    var orders = Model.ToList();
+    var totalOrders = orders.Count;
+    var activeOrders = orders.Count(o =>
+        o.OrderStatus != "Delivered" && o.OrderStatus != "Cancelled");
+    var deliveredOrders = orders.Count(o => o.OrderStatus == "Delivered");
+    var pendingOrders = orders.Count(o => o.OrderStatus == "Placed");
+}
+
+<style>
+    .admin-orders-page {
+        max-width: 1250px;
+        margin: 35px auto 70px;
+        padding: 20px;
+        color: #17243b;
+    }
+
+    .admin-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 38px;
+        margin-bottom: 28px;
+        border: 1px solid rgba(255,255,255,.8);
+        border-radius: 30px;
+        background:
+            radial-gradient(circle at 90% 10%, rgba(230,190,110,.24), transparent 32%),
+            linear-gradient(135deg, rgba(255,255,255,.88), rgba(230,240,255,.72));
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        box-shadow: 0 18px 50px rgba(31,55,100,.09);
+    }
+
+    .admin-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 13px;
+        margin-bottom: 15px;
+        border-radius: 30px;
+        background: rgba(35,91,170,.09);
+        color: #2459a1;
+        font-size: .72rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+    }
+
+    .admin-eyebrow span {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #d7a64b;
+    }
+
+    .admin-hero h1 {
+        margin: 0;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        font-weight: 850;
+        letter-spacing: -1.5px;
+        color: #152b4c;
+    }
+
+    .admin-hero h1 span {
+        color: #bd8a35;
+    }
+
+    .admin-subtitle {
+        margin: 10px 0 0;
+        color: #66758c;
+        font-size: 1rem;
+    }
+
+    .refresh-info {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 10px 15px;
+        margin-top: 23px;
+        border: 1px solid rgba(255,255,255,.9);
+        border-radius: 30px;
+        background: rgba(255,255,255,.65);
+        color: #63728a;
+        font-size: .84rem;
+    }
+
+    .refresh-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #20a46b;
+        box-shadow: 0 0 0 4px rgba(32,164,107,.12);
+    }
+
+    .refresh-info strong {
+        color: #1b4f91;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .order-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        padding: 22px;
+        border: 1px solid rgba(255,255,255,.85);
+        border-radius: 22px;
+        background: rgba(255,255,255,.69);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: 0 10px 30px rgba(31,55,100,.06);
+    }
+
+    .stat-label {
+        color: #748198;
+        font-size: .82rem;
+        font-weight: 650;
+    }
+
+    .stat-value {
+        display: block;
+        margin-top: 8px;
+        color: #1b3459;
+        font-size: 2rem;
+        font-weight: 850;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .stat-accent {
+        width: 35px;
+        height: 4px;
+        margin-top: 13px;
+        border-radius: 10px;
+        background: #d7a64b;
+    }
+
+    .orders-section-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 35px 2px 17px;
+    }
+
+    .orders-section-heading h2 {
+        margin: 0;
+        color: #1b3459;
+        font-size: 1.35rem;
+        font-weight: 800;
+    }
+
+    .orders-section-heading p {
+        margin: 5px 0 0;
+        color: #7b879a;
+        font-size: .86rem;
+    }
+
+    .order-card {
+        overflow: hidden;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255,255,255,.9);
+        border-radius: 25px;
+        background: rgba(255,255,255,.78);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        box-shadow: 0 12px 35px rgba(31,55,100,.07);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .order-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 40px rgba(31,55,100,.11);
+    }
+
+    .order-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 23px 26px;
+        border-bottom: 1px solid rgba(215,225,240,.7);
+        background: rgba(239,245,255,.48);
+    }
+
+    .order-number {
+        color: #1b3459;
+        font-size: 1.15rem;
+        font-weight: 850;
+    }
+
+    .order-date {
+        margin-top: 5px;
+        color: #8390a4;
+        font-size: .83rem;
+    }
+
+    .order-total {
+        color: #1b4f91;
+        font-size: 1.45rem;
+        font-weight: 850;
+        white-space: nowrap;
+    }
+
+    .order-card-body {
+        padding: 24px 26px 26px;
+    }
+
+    .order-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 17px 25px;
+    }
+
+    .info-item {
+        min-width: 0;
+    }
+
+    .info-label {
+        display: block;
+        margin-bottom: 5px;
+        color: #8793a7;
+        font-size: .74rem;
+        font-weight: 750;
+        letter-spacing: .8px;
+        text-transform: uppercase;
+    }
+
+    .info-value {
+        color: #344763;
+        font-size: .93rem;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 12px;
+        border-radius: 30px;
+        background: rgba(35,91,170,.1);
+        color: #2459a1;
+        font-size: .79rem;
+        font-weight: 800;
+    }
+
+    .status-badge::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+
+    .status-placed {
+        background: #fff4db;
+        color: #9b6a13;
+    }
+
+    .status-accepted {
+        background: #e8f1ff;
+        color: #2760a8;
+    }
+
+    .status-preparing {
+        background: #f0eaff;
+        color: #7451aa;
+    }
+
+    .status-ready {
+        background: #e6f7f2;
+        color: #16816a;
+    }
+
+    .status-delivery {
+        background: #e4f3ff;
+        color: #1971ad;
+    }
+
+    .status-delivered {
+        background: #e4f7eb;
+        color: #21834c;
+    }
+
+    .status-cancelled {
+        background: #ffebeb;
+        color: #bd4444;
+    }
+
+    .order-divider {
+        height: 1px;
+        margin: 23px 0;
+        border: 0;
+        background: rgba(215,225,240,.8);
+    }
+
+    .items-heading {
+        margin-bottom: 12px;
+        color: #263c5d;
+        font-size: .92rem;
+        font-weight: 800;
+    }
+
+    .order-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .order-items li {
+        padding: 9px 13px;
+        border: 1px solid rgba(215,225,240,.8);
+        border-radius: 12px;
+        background: rgba(242,246,252,.8);
+        color: #53647d;
+        font-size: .85rem;
+        font-weight: 600;
+    }
+
+    .status-panel {
+        display: flex;
+        align-items: end;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 25px;
+        padding: 18px;
+        border: 1px solid rgba(215,225,240,.65);
+        border-radius: 18px;
+        background: rgba(241,246,253,.65);
+    }
+
+    .status-field {
+        flex: 1;
+        min-width: 190px;
+    }
+
+    .status-field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #65758e;
+        font-size: .76rem;
+        font-weight: 800;
+        letter-spacing: .7px;
+        text-transform: uppercase;
+    }
+
+    .status-form select {
+        width: 100%;
+        min-height: 47px;
+        padding: 10px 13px;
+        border: 1px solid #d8e2f0;
+        border-radius: 12px;
+        outline: none;
+        background: rgba(255,255,255,.95);
+        color: #263c5d;
+        font: inherit;
+        font-size: .9rem;
+    }
+
+    .status-form select:focus {
+        border-color: #5486c7;
+        box-shadow: 0 0 0 3px rgba(84,134,199,.13);
+    }
+
+    .status-form button {
+        min-height: 47px;
+        padding: 0 23px;
+        border: 0;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #245ca8, #173f79);
+        color: white;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 7px 17px rgba(36,92,168,.2);
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .status-form button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 22px rgba(36,92,168,.27);
+    }
+
+    .admin-message {
+        padding: 15px 18px;
+        margin-bottom: 22px;
+        border: 1px solid rgba(32,164,107,.18);
+        border-radius: 15px;
+        background: rgba(226,247,235,.85);
+        color: #176b43;
+        font-weight: 650;
+    }
+
+    .empty-orders {
+        padding: 55px 25px;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,.85);
+        border-radius: 25px;
+        background: rgba(255,255,255,.72);
+        box-shadow: 0 12px 35px rgba(31,55,100,.06);
+    }
+
+    .empty-orders h3 {
+        color: #1b3459;
+        font-weight: 850;
+    }
+
+    .empty-orders p {
+        color: #7b879a;
+    }
+
+    @@media (max-width: 760px) {
+        .admin-orders-page {
+            margin-top: 20px;
+            padding: 12px;
+        }
+
+        .admin-hero {
+            padding: 27px 22px;
+            border-radius: 23px;
+        }
+
+        .order-stats {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 11px;
+        }
+
+        .stat-card {
+            padding: 17px;
+        }
+
+        .stat-value {
+            font-size: 1.7rem;
+        }
+
+        .order-card-top,
+        .order-card-body {
+            padding: 20px;
+        }
+
+        .order-info-grid {
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        .status-form button {
+            width: 100%;
+        }
+
+        .status-field {
+            min-width: 100%;
+        }
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .order-card,
+        .status-form button {
+            transition: none;
+        }
+    }
+</style>
+
+<section class="admin-orders-page">
+
+    <header class="admin-hero">
+        <div class="admin-eyebrow">
+            <span></span>
+            LOCALBITE ADMINISTRATION
+        </div>
+
+        <h1>Manage <span>Orders.</span></h1>
+
+        <p class="admin-subtitle">
+            Keep track of customer orders and guide every meal from kitchen to delivery.
+        </p>
+
+        <div class="refresh-info">
+            <span class="refresh-dot"></span>
+            Next refresh in
+            <strong id="refreshCountdown">50</strong>s
+        </div>
+    </header>
+
+    @if (TempData["AdminMessage"] != null)
+    {
+        <div class="admin-message" role="status">
+            @TempData["AdminMessage"]
+        </div>
+    }
+
+    <div class="order-stats">
+        <div class="stat-card">
+            <span class="stat-label">Total Orders</span>
+            <strong class="stat-value">@totalOrders</strong>
+            <div class="stat-accent"></div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label">Active Orders</span>
+            <strong class="stat-value">@activeOrders</strong>
+            <div class="stat-accent"></div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label">Awaiting Acceptance</span>
+            <strong class="stat-value">@pendingOrders</strong>
+            <div class="stat-accent"></div>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label">Delivered</span>
+            <strong class="stat-value">@deliveredOrders</strong>
+            <div class="stat-accent"></div>
+        </div>
+    </div>
+
+    <div class="orders-section-heading">
+        <div>
+            <h2>Customer Orders</h2>
+            <p>Latest orders appear first.</p>
+        </div>
+    </div>
+
+    @if (!orders.Any())
+    {
+        <div class="empty-orders">
+            <h3>No orders yet</h3>
+            <p>Customer orders will appear here when they place an order.</p>
+        </div>
+    }
+    else
+    {
+        @foreach (var order in orders)
+        {
+            var statusClass = order.OrderStatus switch
+            {
+                "Placed" => "status-placed",
+                "Accepted" => "status-accepted",
+                "Preparing" => "status-preparing",
+                "Ready for delivery" => "status-ready",
+                "Out for delivery" => "status-delivery",
+                "Delivered" => "status-delivered",
+                "Cancelled" => "status-cancelled",
+                _ => ""
+            };
+
+            <article class="order-card">
+
+                <div class="order-card-top">
+                    <div>
+                        <div class="order-number">
+                            Order #LB-@order.Id.ToString("D6")
+                        </div>
+
+                        <div class="order-date">
+                            @order.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+                        </div>
+                    </div>
+
+                    <div class="order-total">
+                        @order.TotalAmount.ToString("C", new System.Globalization.CultureInfo("en-ZA"))
+                    </div>
+                </div>
+
+                <div class="order-card-body">
+
+                    <div class="order-info-grid">
+
+                        <div class="info-item">
+                            <span class="info-label">Customer</span>
+                            <div class="info-value">
+                                @(order.Customer?.FullName ?? "Unknown")
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">Phone Number</span>
+                            <div class="info-value">
+                                @(order.Customer?.PhoneNumber ?? "Not provided")
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">Delivery Address</span>
+                            <div class="info-value">
+                                @(order.Customer?.DeliveryAddress ?? "Not provided")
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">Payment Method</span>
+                            <div class="info-value">
+                                @order.PaymentMethod
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">Current Status</span>
+                            <div>
+                                <span class="status-badge @statusClass">
+                                    @order.OrderStatus
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr class="order-divider" />
+
+                    <div class="items-heading">Order Items</div>
+
+                    <ul class="order-items">
+                        @foreach (var item in order.OrderItems)
+                        {
+                            <li>
+                                @(item.MenuItem?.Name ?? "Unavailable item")
+                                × @item.Quantity
+                            </li>
+                        }
+                    </ul>
+
+                    <form asp-controller="AdminOrders"
+                          asp-action="UpdateStatus"
+                          method="post"
+                          class="status-form">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" name="id" value="@order.Id" />
+
+                        <div class="status-panel">
+                            <div class="status-field">
+                                <label for="status-@order.Id">Update order progress</label>
+
+                                <select id="status-@order.Id" name="status">
+                                    @foreach (var status in statuses)
+                                    {
+                                        if (order.OrderStatus == status)
+                                        {
+                                            <option value="@status" selected>@status</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@status">@status</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <button type="submit">
+                                Update Status
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </article>
+        }
+    }
+</section>
+
+<script>
+    (() => {
+        let seconds = 50;
+        const countdown = document.getElementById("refreshCountdown");
+
+        if (!countdown) return;
+
+        const timer = setInterval(() => {
+            const isEditing = document.querySelector(".status-form select:focus");
+
+            if (document.hidden || isEditing) {
+                return;
+            }
+
+            seconds--;
+
+            countdown.textContent = seconds;
+
+            if (seconds <= 0) {
+                clearInterval(timer);
+                window.location.reload();
+            }
+        }, 1000);
+    })();
+</script>

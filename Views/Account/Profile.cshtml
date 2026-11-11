@@ -1,0 +1,360 @@
+
+@model Microsoft.AspNetCore.Identity.IdentityUser
+
+@{
+    ViewData["Title"] = "My Profile";
+
+    var profilePhoto = ViewBag.ProfilePhoto as string;
+    var initial = !string.IsNullOrWhiteSpace(Model.Email)
+        ? Model.Email.Substring(0, 1).ToUpper()
+        : "U";
+}
+
+<div class="container py-5 profile-page">
+
+    <div class="profile-glass-card mx-auto">
+
+        <div class="profile-header text-center">
+
+            <span class="profile-eyebrow">YOUR LOCALBITE ACCOUNT</span>
+
+            <div class="profile-photo-wrapper">
+
+                @if (!string.IsNullOrWhiteSpace(profilePhoto))
+                {
+                    <img src="@profilePhoto"
+                         alt="Your profile photo"
+                         class="profile-photo" />
+                }
+                else
+                {
+                    <div class="profile-photo profile-placeholder">
+                        @initial
+                    </div>
+                }
+
+                <span class="profile-online-indicator"></span>
+            </div>
+
+            <h1>My Profile</h1>
+
+            <p>Make your LocalBite account yours.</p>
+
+            <span class="profile-status">
+                <span></span>
+                Active Account
+            </span>
+
+        </div>
+
+        @if (TempData["ProfileMessage"] != null)
+        {
+            <div class="alert alert-info text-center mt-4">
+                @TempData["ProfileMessage"]
+            </div>
+        }
+
+        <div class="profile-upload-section">
+
+            <h3>Profile Picture</h3>
+
+            <p>Choose a photo to personalise your account.</p>
+
+            <form asp-controller="Account"
+                  asp-action="UploadProfilePhoto"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                @Html.AntiForgeryToken()
+
+                <input type="file"
+                       name="photo"
+                       id="profilePhotoInput"
+                       class="form-control mb-3"
+                       accept=".jpg,.jpeg,.png,.webp"
+                       required />
+
+                <small class="profile-help">
+                    JPG, PNG or WebP · Maximum size: 2 MB
+                </small>
+
+                <button type="submit"
+                        class="btn btn-warning w-100 mt-3">
+                    Upload Profile Photo →
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="profile-username-section">
+
+            <div class="username-heading">
+                <div>
+                    <span class="username-eyebrow">PERSONALISE YOUR ACCOUNT</span>
+                    <h3>Edit Your Username</h3>
+                    <p>Choose a name you'd like people to see.</p>
+                </div>
+
+                <span class="username-icon">
+                    <i class="bi bi-person-badge"></i>
+                </span>
+            </div>
+
+            <form asp-controller="Account"
+                  asp-action="UpdateUsername"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <label for="username">Your username</label>
+
+                <input type="text"
+                       id="username"
+                       name="username"
+                       class="form-control"
+                       value="@Model.UserName"
+                       minlength="3"
+                       maxlength="30"
+                       autocomplete="username"
+                       placeholder="e.g. YoungRNB"
+                       required />
+
+                <small class="profile-help">
+                    Use between 3 and 30 characters. Your email address will remain unchanged.
+                </small>
+
+                <button type="submit"
+                        class="btn btn-warning w-100 mt-3">
+                    Save Username →
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="profile-details">
+
+            <div class="profile-detail-item">
+                <label>Email Address</label>
+                <div>@Model.Email</div>
+                <small class="profile-help">Used for signing in and account communication.</small>
+            </div>
+
+            <div class="profile-detail-item">
+                <label>Username</label>
+                <div>@Model.UserName</div>
+            </div>
+
+            <div class="profile-detail-item">
+                <label>Account Status</label>
+                <div class="profile-active-text">Active</div>
+            </div>
+
+        </div>
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="btn btn-outline-primary w-100 mt-4">
+            Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+<style>
+    .profile-page {
+        max-width: 900px;
+    }
+
+    .profile-glass-card {
+        max-width: 620px;
+        padding: 38px;
+        border-radius: 30px;
+        border: 1px solid rgba(255,255,255,.85);
+        background: rgba(255,255,255,.58);
+        box-shadow: 0 22px 60px rgba(55,105,145,.12);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+    }
+
+    .profile-eyebrow {
+        color: #347fc1;
+        font-size: .7rem;
+        font-weight: 850;
+        letter-spacing: 2px;
+    }
+
+    .profile-photo-wrapper {
+        position: relative;
+        width: 145px;
+        height: 145px;
+        margin: 25px auto 20px;
+    }
+
+    .profile-photo {
+        width: 145px;
+        height: 145px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 5px solid rgba(255,255,255,.9);
+        box-shadow: 0 12px 35px rgba(45,105,155,.18);
+    }
+
+    .profile-placeholder {
+        display: grid;
+        place-items: center;
+        color: #347fc1;
+        font-size: 3.5rem;
+        font-weight: 850;
+        background: linear-gradient(135deg, #dcefff, #fff3d7);
+    }
+
+    .profile-online-indicator {
+        position: absolute;
+        right: 9px;
+        bottom: 10px;
+        width: 19px;
+        height: 19px;
+        border: 3px solid white;
+        border-radius: 50%;
+        background: #35b77a;
+    }
+
+    .profile-header h1 {
+        font-size: 2rem;
+        font-weight: 850;
+        letter-spacing: -1px;
+    }
+
+    .profile-header p {
+        color: #718096;
+    }
+
+    .profile-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 15px;
+        border-radius: 30px;
+        color: #27865e;
+        background: rgba(53,183,122,.10);
+        font-size: .8rem;
+        font-weight: 750;
+    }
+
+    .profile-status span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #35b77a;
+    }
+
+    .profile-upload-section,
+    .profile-username-section {
+        margin-top: 30px;
+        padding: 25px;
+        border: 1px solid rgba(75,159,232,.15);
+        border-radius: 20px;
+        background: rgba(235,246,255,.55);
+    }
+
+    .profile-upload-section h3,
+    .profile-username-section h3 {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #263c52;
+    }
+
+    .profile-upload-section p,
+    .profile-username-section p,
+    .profile-help {
+        color: #718096;
+        font-size: .88rem;
+    }
+
+    .username-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .username-eyebrow {
+        color: #347fc1;
+        font-size: .65rem;
+        font-weight: 850;
+        letter-spacing: 1.5px;
+    }
+
+    .username-heading h3 {
+        margin-top: 7px;
+    }
+
+    .username-icon {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+        border-radius: 15px;
+        color: #347fc1;
+        background: rgba(75,159,232,.13);
+        font-size: 1.35rem;
+    }
+
+    .profile-username-section label {
+        display: block;
+        margin-bottom: 8px;
+        color: #52677d;
+        font-size: .85rem;
+        font-weight: 750;
+    }
+
+    .profile-username-section .form-control {
+        background: rgba(255,255,255,.8);
+        border-radius: 13px;
+        min-height: 50px;
+    }
+
+    .profile-details {
+        margin-top: 28px;
+    }
+
+    .profile-detail-item {
+        padding: 17px 0;
+        border-bottom: 1px solid rgba(80,110,140,.12);
+    }
+
+    .profile-detail-item label {
+        display: block;
+        margin-bottom: 6px;
+        color: #718096;
+        font-size: .78rem;
+        font-weight: 750;
+        letter-spacing: .5px;
+    }
+
+    .profile-detail-item div {
+        color: #263c52;
+        font-weight: 650;
+        overflow-wrap: anywhere;
+    }
+
+    .profile-active-text {
+        color: #27865e !important;
+    }
+
+    @@media (max-width: 575.98px) {
+        .profile-glass-card {
+            padding: 25px 18px;
+        }
+
+        .profile-upload-section,
+        .profile-username-section {
+            padding: 19px;
+        }
+    }
+</style>

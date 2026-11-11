@@ -1,0 +1,157 @@
+
+@model LocalBite.Models.MenuItem
+
+@{
+    ViewData["Title"] = "Edit Meal";
+}
+
+<style>
+    .meal-form-page {
+        max-width: 760px;
+        margin: 45px auto 75px;
+        padding: 35px;
+        color: #18304b;
+        background: rgba(255, 255, 255, 0.76);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        border: 1px solid rgba(255,255,255,.85);
+        border-radius: 28px;
+        box-shadow: 0 15px 45px rgba(31,65,100,.10);
+    }
+
+    .meal-form-page h1 {
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .meal-form-subtitle {
+        color: #718096;
+        margin-bottom: 30px;
+    }
+
+    .meal-form-page .form-label {
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .meal-form-page .form-control {
+        border: 1px solid #dce5ef;
+        border-radius: 13px;
+        padding: 12px 15px;
+        background: rgba(255,255,255,.85);
+    }
+
+    .meal-form-page .form-control:focus {
+        border-color: #4388d5;
+        box-shadow: 0 0 0 3px rgba(67,136,213,.12);
+    }
+
+    .meal-save-btn {
+        background: linear-gradient(120deg, #174d8b, #287bd0);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        padding: 12px 25px;
+        font-weight: 750;
+    }
+
+    .meal-back-btn {
+        color: #2463b5;
+        text-decoration: none;
+        font-weight: 700;
+        margin-left: 15px;
+    }
+
+    .field-validation-error {
+        color: #c33c3c;
+        font-size: 13px;
+    }
+
+    @@media (max-width: 600px) {
+        .meal-form-page {
+            margin: 25px 12px 50px;
+            padding: 23px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="meal-form-page">
+
+        <h1>Edit Meal</h1>
+        <p class="meal-form-subtitle">
+            Update your meal details and keep your menu current.
+        </p>
+
+        <form asp-action="Edit"
+              asp-route-id="@Model.Id"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Meal Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name"
+                      class="field-validation-error"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description"
+                          class="form-control"
+                          rows="3"></textarea>
+                <span asp-validation-for="Description"
+                      class="field-validation-error"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Price" class="form-label">Price (R)</label>
+                <input asp-for="Price"
+                       type="number"
+                       step="0.01"
+                       min="0.01"
+                       class="form-control" />
+                <span asp-validation-for="Price"
+                      class="field-validation-error"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ImageUrl" class="form-label">Meal Image Path</label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl"
+                      class="field-validation-error"></span>
+                <small class="text-muted">
+                    Example: /images/food/burger.jpg
+                </small>
+            </div>
+
+            <div class="form-check form-switch mb-4">
+                <input asp-for="IsAvailable"
+                       class="form-check-input"
+                       type="checkbox" />
+                <label asp-for="IsAvailable" class="form-check-label">
+                    Available on the menu
+                </label>
+            </div>
+
+            <button type="submit" class="meal-save-btn">
+                Save Changes
+            </button>
+
+            <a asp-action="Index" class="meal-back-btn">
+                Cancel
+            </a>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

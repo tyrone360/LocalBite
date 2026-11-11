@@ -1,0 +1,115 @@
+
+@model LocalBite.Models.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="auth-page">
+
+    <div class="auth-glass-card">
+
+        <div class="text-center mb-4">
+
+            <div class="auth-logo mb-3">
+                LocalBite<span class="auth-gold">.</span>
+            </div>
+
+            <span class="badge rounded-pill bg-primary-subtle text-primary px-3 py-2 mb-3">
+                WELCOME BACK
+            </span>
+
+            <h1 class="auth-heading">
+                Good to see <span class="auth-glow">you.</span>
+            </h1>
+
+            <p class="auth-subtitle mt-2">
+                Sign in and get closer to your next favourite meal.
+            </p>
+
+        </div>
+
+        <div class="auth-divider"></div>
+
+        <form asp-controller="Account"
+              asp-action="Login"
+              method="post">
+
+            <div asp-validation-summary="All"
+                 class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">
+                    Email address
+                </label>
+
+                <input asp-for="Email"
+                       class="form-control"
+                       placeholder="you@example.com"
+                       autocomplete="email" />
+
+                <span asp-validation-for="Email"
+                      class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">
+                    Password
+                </label>
+
+                <input asp-for="Password"
+                       class="form-control"
+                       placeholder="Enter your password"
+                       autocomplete="current-password" />
+
+                <span asp-validation-for="Password"
+                      class="text-danger small"></span>
+            </div>
+
+            <div class="form-check mb-4">
+                <input asp-for="RememberMe"
+                       class="form-check-input" />
+
+                <label asp-for="RememberMe"
+                       class="form-check-label auth-subtitle">
+                    Keep me signed in
+                </label>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-warning w-100 fw-bold">
+                Sign In →
+            </button>
+
+        </form>
+
+        <div class="auth-divider"></div>
+
+        <div class="text-center">
+
+            <p class="auth-subtitle mb-2">
+                New to LocalBite?
+            </p>
+
+            <a asp-controller="Account"
+               asp-action="Register"
+               class="fw-bold">
+                Create your account
+            </a>
+
+        </div>
+
+        <div class="text-center mt-4">
+            <small class="auth-subtitle">
+                Crafted for food lovers.
+                <span class="auth-gold">♥</span>
+            </small>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

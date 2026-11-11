@@ -1,0 +1,406 @@
+
+@model LocalBite.Models.Order
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Order Confirmed";
+
+    var orderNumber = $"LB-{Model.Id:D6}";
+
+    var emailItems = Model.OrderItems.Select(item =>
+        $"{(item.MenuItem?.Name ?? "Menu item")} x {item.Quantity} - R {(item.UnitPrice * item.Quantity).ToString("N2")}");
+
+    var emailData = new
+    {
+        order_id = orderNumber,
+        order_date = Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm"),
+        customer_name = Model.Customer?.FullName ?? "Not provided",
+        customer_email = Model.Customer?.Email ?? "",
+        customer_phone = Model.Customer?.PhoneNumber ?? "Not provided",
+        delivery_address = Model.Customer?.DeliveryAddress ?? "Not provided",
+        delivery_notes = string.IsNullOrWhiteSpace(Model.Notes)
+            ? "No special instructions."
+            : Model.Notes,
+        order_items = string.Join("\n", emailItems),
+        payment_method = Model.PaymentMethod,
+        total = $"R {Model.TotalAmount:N2}"
+    };
+
+    var emailDataJson = JsonSerializer.Serialize(emailData);
+}
+
+<section class="confirmation-page">
+    <div class="confirmation-card">
+
+        <div class="success-icon">✓</div>
+
+        <span class="confirmation-label">LOCALBITE • ORDER RECEIVED</span>
+
+        <h1>Thank You!</h1>
+
+        <p class="confirmation-message">
+            Your order has been placed successfully.
+            We'll keep you updated as it progresses.
+        </p>
+
+        <div class="order-number">
+            <span>YOUR ORDER NUMBER</span>
+            <strong>@orderNumber</strong>
+        </div>
+
+        <div class="order-details">
+            <h2>Order Summary</h2>
+
+            <div class="detail-row">
+                <span>Order status</span>
+                <strong>@Model.OrderStatus</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Payment method</span>
+                <strong>@Model.PaymentMethod</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Order date</span>
+                <strong>@Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Customer</span>
+                <strong>@Model.Customer?.FullName</strong>
+            </div>
+
+            <div class="detail-row">
+                <span>Delivery address</span>
+                <strong>@Model.Customer?.DeliveryAddress</strong>
+            </div>
+
+            <div class="detail-divider"></div>
+
+            <h3>Items Ordered</h3>
+
+            @foreach (var item in Model.OrderItems)
+            {
+                <div class="item-row">
+                    <span>
+                        @(item.MenuItem?.Name ?? "Menu item")
+                        × @item.Quantity
+                    </span>
+
+                    <strong>
+                        R @((item.UnitPrice * item.Quantity).ToString("N2"))
+                    </strong>
+                </div>
+            }
+
+            <div class="detail-divider"></div>
+
+            <div class="total-row">
+                <span>Total Amount</span>
+                <strong>R @Model.TotalAmount.ToString("N2")</strong>
+            </div>
+        </div>
+
+        @if (Model.PaymentMethod == "EFT")
+        {
+            <div class="payment-notice">
+                <strong>EFT payment selected</strong>
+                <p>
+                    Your payment will need to be verified manually.
+                    Please follow the restaurant's payment instructions.
+                </p>
+            </div>
+        }
+
+        <p id="email-notification-status"
+           class="email-status"
+           aria-live="polite">
+            Sending order notification to the restaurant...
+        </p>
+
+        <div class="confirmation-actions">
+            <a asp-controller="Orders" asp-action="Index" class="primary-button">
+                Track My Orders
+            </a>
+
+            <a asp-controller="Menu" asp-action="Index" class="secondary-button">
+                Continue Shopping
+            </a>
+        </div>
+
+        <p class="thank-you-footer">
+            Thank you for choosing LocalBite.
+        </p>
+
+    </div>
+</section>
+
+<style>
+    .confirmation-page {
+        max-width: 760px;
+        margin: 55px auto;
+        padding: 20px;
+    }
+
+    .confirmation-card {
+        padding: 40px;
+        border-radius: 30px;
+        text-align: center;
+        background: rgba(255, 255, 255, .7);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, .8);
+        box-shadow: 0 20px 60px rgba(30, 60, 100, .10);
+    }
+
+    .success-icon {
+        width: 75px;
+        height: 75px;
+        margin: 0 auto 22px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #2869c7, #d3a443);
+        color: white;
+        font-size: 38px;
+        font-weight: 800;
+        box-shadow: 0 10px 30px rgba(40, 105, 199, .2);
+    }
+
+    .confirmation-label {
+        color: #b58b32;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 3px;
+    }
+
+    .confirmation-card h1 {
+        margin: 12px 0;
+        font-size: 42px;
+        font-weight: 850;
+        color: #172033;
+    }
+
+    .confirmation-message {
+        color: #687386;
+        line-height: 1.7;
+    }
+
+    .order-number {
+        margin: 28px 0;
+        padding: 20px;
+        border-radius: 18px;
+        background: rgba(54, 120, 216, .08);
+        border: 1px solid rgba(54, 120, 216, .15);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .order-number span {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: #687386;
+    }
+
+    .order-number strong {
+        font-size: 26px;
+        color: #2869c7;
+        letter-spacing: 2px;
+    }
+
+    .order-details {
+        text-align: left;
+        padding: 25px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, .55);
+        border: 1px solid rgba(100, 120, 150, .15);
+    }
+
+    .order-details h2 {
+        font-size: 21px;
+        margin-bottom: 20px;
+    }
+
+    .order-details h3 {
+        font-size: 16px;
+        margin: 20px 0 12px;
+    }
+
+    .detail-row,
+    .item-row,
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .detail-row span,
+    .item-row span {
+        color: #687386;
+    }
+
+    .detail-row strong,
+    .item-row strong {
+        text-align: right;
+        color: #172033;
+    }
+
+    .detail-divider {
+        height: 1px;
+        background: rgba(100, 120, 150, .2);
+        margin: 20px 0;
+    }
+
+    .total-row {
+        margin-bottom: 0;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .total-row strong {
+        color: #2869c7;
+        font-size: 22px;
+    }
+
+    .payment-notice {
+        margin-top: 20px;
+        padding: 18px;
+        border-radius: 16px;
+        background: rgba(211, 164, 67, .12);
+        text-align: left;
+    }
+
+    .payment-notice p {
+        margin: 7px 0 0;
+        font-size: 13px;
+    }
+
+    .email-status {
+        margin: 20px 0 0;
+        padding: 12px;
+        border-radius: 12px;
+        background: rgba(54, 120, 216, .07);
+        color: #2869c7;
+        font-size: 13px;
+    }
+
+    .confirmation-actions {
+        display: grid;
+        gap: 12px;
+        margin-top: 28px;
+    }
+
+    .primary-button,
+    .secondary-button {
+        padding: 15px;
+        border-radius: 15px;
+        text-decoration: none;
+        font-weight: 750;
+        text-align: center;
+    }
+
+    .primary-button {
+        color: white;
+        background: linear-gradient(110deg, #2869c7, #d3a443);
+    }
+
+    .secondary-button {
+        color: #2869c7;
+        border: 1px solid rgba(54, 120, 216, .25);
+        background: rgba(255, 255, 255, .6);
+    }
+
+    .thank-you-footer {
+        margin: 25px 0 0;
+        color: #687386;
+        font-size: 13px;
+    }
+
+    @@media (max-width: 600px) {
+        .confirmation-page {
+            margin: 25px auto;
+            padding: 12px;
+        }
+
+        .confirmation-card {
+            padding: 24px 16px;
+        }
+
+        .order-details {
+            padding: 18px 14px;
+        }
+
+        .detail-row,
+        .item-row {
+            font-size: 12px;
+        }
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@@emailjs/browser@5/dist/email.min.js"></script>
+<script>
+    (async function () {
+        const statusElement = document.getElementById(
+            "email-notification-status"
+        );
+
+        const orderEmailData = @Html.Raw(emailDataJson);
+
+        const storageKey =
+            "localbite-order-email-sent-" + orderEmailData.order_id;
+
+        try {
+            // Avoid sending the same notification again on a page refresh.
+            let alreadySent = false;
+
+            try {
+                alreadySent =
+                    sessionStorage.getItem(storageKey) === "sent";
+            } catch {
+                // Continue if browser storage is unavailable.
+            }
+
+            if (alreadySent) {
+                statusElement.textContent =
+                    "The restaurant has already been notified about this order.";
+
+                return;
+            }
+
+            if (!window.emailjs) {
+                throw new Error("EmailJS could not be loaded.");
+            }
+
+            emailjs.init({
+                publicKey: "Yf_JvnWvpda5il7EGglQG"
+            });
+
+            await emailjs.send(
+                "service_xosfsw7",
+                "template_w9vyu6a",
+                orderEmailData
+            );
+
+            try {
+                sessionStorage.setItem(storageKey, "sent");
+            } catch {
+                // The email was sent even if storage is unavailable.
+            }
+
+            statusElement.textContent =
+                "The restaurant has been notified about your order.";
+
+        } catch (error) {
+            console.error("LocalBite order email failed:", error);
+
+            statusElement.textContent =
+                "Your order was saved, but the email notification could not be sent. Please contact the restaurant if needed.";
+        }
+    })();
+</script>

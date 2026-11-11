@@ -1,0 +1,765 @@
+
+@{
+    ViewData["Title"] = "About Us";
+}
+
+<div class="about-page">
+
+    <!-- HERO -->
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <span class="about-eyebrow">WELCOME TO LOCALBITE</span>
+            <h1>Good food.<br />Good moments<span>.</span></h1>
+            <p>
+                Discover Conny's Restaurant, a local food destination
+                in the heart of Chiawelo, Soweto.
+            </p>
+
+            <div class="about-hero-buttons">
+                <a asp-controller="Menu" asp-action="Index" class="about-primary-btn">
+                    Explore Our Menu <span>→</span>
+                </a>
+                <a href="#our-story" class="about-secondary-btn">
+                    Discover Our Story
+                </a>
+            </div>
+        </div>
+
+        <!-- HERO SLIDESHOW -->
+        <div class="about-hero-image slideshow">
+
+            <div class="slide active">
+                <img src="~/images/about/restaurant-hero.jpg"
+                     alt="Restaurant food and dining experience" />
+            </div>
+
+            <div class="slide">
+                <img src="~/images/about/restaurant-interior.jpg"
+                     alt="Restaurant dining atmosphere" />
+            </div>
+
+            <div class="slide">
+                <img src="~/images/about/grilled-food.jpg"
+                     alt="Grilled food prepared for a dining experience" />
+            </div>
+
+            <button class="slide-arrow prev" type="button"
+                    aria-label="Previous slide">
+                &#10094;
+            </button>
+
+            <button class="slide-arrow next" type="button"
+                    aria-label="Next slide">
+                &#10095;
+            </button>
+
+            <div class="slide-indicators">
+                <button class="slide-dot active" type="button" aria-label="Show slide 1"></button>
+                <button class="slide-dot" type="button" aria-label="Show slide 2"></button>
+                <button class="slide-dot" type="button" aria-label="Show slide 3"></button>
+            </div>
+
+            <div class="hero-image-caption">
+                <span>LOCAL FOOD EXPERIENCE</span>
+                <strong>Made to be enjoyed.</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUSINESS HIGHLIGHTS -->
+    <section class="about-highlights">
+        <div class="highlight-card">
+            <span class="highlight-icon">★</span>
+            <div>
+                <strong>4.2 / 5</strong>
+                <small>Customer rating</small>
+            </div>
+        </div>
+
+        <div class="highlight-card">
+            <span class="highlight-icon">✦</span>
+            <div>
+                <strong>42</strong>
+                <small>Customer reviews</small>
+            </div>
+        </div>
+
+        <div class="highlight-card">
+            <span class="highlight-icon">⌖</span>
+            <div>
+                <strong>Chiawelo</strong>
+                <small>Soweto, South Africa</small>
+            </div>
+        </div>
+
+        <div class="highlight-card">
+            <span class="highlight-icon">♥</span>
+            <div>
+                <strong>Local dining</strong>
+                <small>Dine-in and takeaway</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY -->
+    <section class="about-story" id="our-story">
+        <div class="story-image">
+            <img src="~/images/about/restaurant-interior.jpg"
+                 alt="Restaurant dining atmosphere" />
+            <div class="story-image-tag">A PLACE TO ENJOY</div>
+        </div>
+
+        <div class="story-content">
+            <span class="about-eyebrow">OUR STORY</span>
+            <h2>A taste of home, right here in Soweto<span>.</span></h2>
+
+            <p>
+                Conny's Restaurant is a South African restaurant
+                located in Chiawelo, Soweto.
+            </p>
+
+            <p>
+                LocalBite brings the restaurant's online experience
+                closer to customers, making it easier to discover
+                the business, explore its menu and place food orders.
+            </p>
+
+            <a asp-controller="Menu" asp-action="Index" class="story-link">
+                Browse the menu →
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOD SHOWCASE -->
+    <section class="about-food">
+        <div class="section-heading">
+            <span class="about-eyebrow">FOOD & EXPERIENCE</span>
+            <h2>Good food brings people together<span>.</span></h2>
+            <p>
+                Explore the menu and discover what is available
+                at Conny's Restaurant.
+            </p>
+        </div>
+
+        <div class="food-showcase">
+            <img src="~/images/about/grilled-food.jpg"
+                 alt="Grilled food prepared for a dining experience" />
+
+            <div class="food-showcase-content">
+                <span>YOUR NEXT MEAL STARTS HERE</span>
+                <h3>Something delicious is waiting.</h3>
+                <a asp-controller="Menu" asp-action="Index">
+                    View Menu →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION -->
+    <section class="about-location">
+        <div class="location-information">
+            <span class="about-eyebrow">FIND US</span>
+            <h2>Visit our location<span>.</span></h2>
+
+            <div class="location-detail">
+                <span>⌖</span>
+                <div>
+                    <strong>Restaurant address</strong>
+                    <p>3992 Kubayi Street, Chiawelo, Soweto, 1818, South Africa</p>
+                </div>
+            </div>
+
+            <div class="location-detail">
+                <span>★</span>
+                <div>
+                    <strong>Customer rating</strong>
+                    <p>4.2 out of 5 · 42 reviews</p>
+                </div>
+            </div>
+
+            <a href="https://www.google.com/maps/search/?api=1&query=3992+Kubayi+Street+Chiawelo+Soweto+1818+South+Africa"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="about-primary-btn">
+                Get Directions →
+            </a>
+        </div>
+
+        <div class="location-map">
+            <iframe
+                src="https://maps.google.com/maps?q=3992%20Kubayi%20Street%2C%20Chiawelo%2C%20Soweto%2C%20South%20Africa&output=embed"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Map showing Conny's Restaurant in Chiawelo, Soweto">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="about-cta">
+        <span class="about-eyebrow">READY TO ORDER?</span>
+        <h2>Let's make your next meal special<span>.</span></h2>
+        <p>Explore the LocalBite menu and find something you'll love.</p>
+
+        <a asp-controller="Menu" asp-action="Index" class="about-primary-btn">
+            Order Now →
+        </a>
+    </section>
+
+</div>
+
+<style>
+    .about-page {
+        max-width: 1200px;
+        margin: 35px auto;
+        color: #263b52;
+    }
+
+    .about-page * {
+        box-sizing: border-box;
+    }
+
+    .about-hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 35px;
+        padding: 35px;
+        border: 1px solid rgba(255,255,255,.8);
+        border-radius: 32px;
+        background: rgba(255,255,255,.62);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        box-shadow: 0 18px 50px rgba(45,80,120,.09);
+    }
+
+    .about-eyebrow {
+        color: #b18430;
+        font-size: .73rem;
+        font-weight: 850;
+        letter-spacing: 3px;
+    }
+
+    .about-hero h1 {
+        margin: 20px 0;
+        font-size: clamp(2.8rem, 5vw, 4.8rem);
+        line-height: 1.05;
+        font-weight: 900;
+        letter-spacing: -3px;
+    }
+
+    .about-hero h1 span,
+    .story-content h2 span,
+    .section-heading h2 span,
+    .location-information h2 span,
+    .about-cta h2 span {
+        color: #d3a64e;
+    }
+
+    .about-hero-content > p {
+        max-width: 440px;
+        color: #687b90;
+        line-height: 1.8;
+    }
+
+    .about-hero-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+    }
+
+    .about-primary-btn,
+    .about-secondary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 21px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 750;
+        transition: .25s ease;
+    }
+
+    .about-primary-btn {
+        color: white;
+        background: linear-gradient(135deg, #398bd0, #236cae);
+        box-shadow: 0 8px 22px rgba(35,108,174,.22);
+    }
+
+    .about-primary-btn:hover {
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(35,108,174,.3);
+    }
+
+    .about-secondary-btn {
+        color: #46627d;
+        border: 1px solid rgba(90,120,150,.2);
+        background: rgba(255,255,255,.7);
+    }
+
+    .about-secondary-btn:hover {
+        color: #236cae;
+        transform: translateY(-3px);
+    }
+
+    /* SLIDESHOW */
+    .about-hero-image {
+        position: relative;
+        min-height: 390px;
+        overflow: hidden;
+        border-radius: 25px;
+        background: #dce6ef;
+    }
+
+    .slideshow .slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 1s ease, visibility 1s ease;
+    }
+
+    .slideshow .slide.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .about-hero-image img,
+    .story-image img,
+    .food-showcase > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .slideshow .slide img {
+        transition: transform 5s ease;
+        transform: scale(1.04);
+    }
+
+    .slideshow .slide.active img {
+        transform: scale(1.12);
+    }
+
+    .slide-arrow {
+        position: absolute;
+        z-index: 3;
+        top: 50%;
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(255,255,255,.6);
+        border-radius: 50%;
+        color: white;
+        background: rgba(20,35,50,.4);
+        backdrop-filter: blur(10px);
+        cursor: pointer;
+        transform: translateY(-50%);
+        transition: .25s ease;
+    }
+
+    .slide-arrow:hover {
+        background: rgba(35,108,174,.85);
+        transform: translateY(-50%) scale(1.08);
+    }
+
+    .slide-arrow.prev {
+        left: 14px;
+    }
+
+    .slide-arrow.next {
+        right: 14px;
+    }
+
+    .slide-indicators {
+        position: absolute;
+        z-index: 4;
+        bottom: 125px;
+        left: 50%;
+        display: flex;
+        gap: 8px;
+        transform: translateX(-50%);
+    }
+
+    .slide-dot {
+        width: 9px;
+        height: 9px;
+        padding: 0;
+        border: 0;
+        border-radius: 20px;
+        background: rgba(255,255,255,.6);
+        cursor: pointer;
+        transition: .3s ease;
+    }
+
+    .slide-dot.active {
+        width: 25px;
+        background: #f2ce7f;
+    }
+
+    .hero-image-caption {
+        position: absolute;
+        z-index: 2;
+        right: 18px;
+        bottom: 18px;
+        left: 18px;
+        padding: 20px;
+        border: 1px solid rgba(255,255,255,.4);
+        border-radius: 18px;
+        color: white;
+        background: rgba(20,35,50,.55);
+        backdrop-filter: blur(15px);
+    }
+
+    .hero-image-caption span,
+    .hero-image-caption strong {
+        display: block;
+    }
+
+    .hero-image-caption span {
+        font-size: .7rem;
+        letter-spacing: 2px;
+    }
+
+    .hero-image-caption strong {
+        margin-top: 5px;
+        font-size: 1.2rem;
+    }
+
+    .about-highlights {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin: 25px 0 65px;
+    }
+
+    .highlight-card {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 20px 16px;
+        border: 1px solid rgba(255,255,255,.8);
+        border-radius: 20px;
+        background: rgba(255,255,255,.65);
+        backdrop-filter: blur(15px);
+        box-shadow: 0 10px 25px rgba(45,80,120,.06);
+    }
+
+    .highlight-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 43px;
+        height: 43px;
+        border-radius: 15px;
+        color: #a87920;
+        background: linear-gradient(135deg,#fff3d7,#fff);
+        font-size: 1.3rem;
+    }
+
+    .highlight-card strong,
+    .highlight-card small {
+        display: block;
+    }
+
+    .highlight-card strong {
+        font-size: 1.05rem;
+        font-weight: 850;
+    }
+
+    .highlight-card small {
+        margin-top: 4px;
+        color: #78899b;
+        font-size: .75rem;
+    }
+
+    .about-story {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 55px;
+        margin: 70px 0;
+    }
+
+    .story-image {
+        position: relative;
+        height: 390px;
+        overflow: hidden;
+        border-radius: 28px;
+        box-shadow: 0 18px 40px rgba(30,55,80,.12);
+    }
+
+    .story-image-tag {
+        position: absolute;
+        bottom: 18px;
+        left: 18px;
+        padding: 12px 18px;
+        border-radius: 30px;
+        color: white;
+        background: rgba(25,40,55,.65);
+        backdrop-filter: blur(12px);
+        font-size: .72rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+    }
+
+    .story-content h2,
+    .section-heading h2,
+    .location-information h2 {
+        margin: 15px 0;
+        font-size: clamp(2rem,4vw,3rem);
+        font-weight: 900;
+        letter-spacing: -1.5px;
+    }
+
+    .story-content p,
+    .section-heading p {
+        color: #708196;
+        line-height: 1.9;
+    }
+
+    .story-link {
+        display: inline-block;
+        margin-top: 15px;
+        color: #287fc0;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .about-food {
+        margin: 80px 0;
+    }
+
+    .section-heading {
+        max-width: 650px;
+        margin: 0 auto 28px;
+        text-align: center;
+    }
+
+    .food-showcase {
+        position: relative;
+        height: 390px;
+        overflow: hidden;
+        border-radius: 30px;
+        box-shadow: 0 18px 40px rgba(30,55,80,.13);
+    }
+
+    .food-showcase::after {
+        position: absolute;
+        inset: 0;
+        content: "";
+        background: linear-gradient(90deg,rgba(15,25,35,.82),rgba(15,25,35,.05));
+    }
+
+    .food-showcase-content {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 7%;
+        max-width: 440px;
+        transform: translateY(-50%);
+        color: white;
+    }
+
+    .food-showcase-content > span {
+        color: #f2ce7f;
+        font-size: .72rem;
+        font-weight: 850;
+        letter-spacing: 2px;
+    }
+
+    .food-showcase-content h3 {
+        margin: 15px 0 25px;
+        font-size: clamp(2rem,4vw,3.2rem);
+        font-weight: 900;
+    }
+
+    .food-showcase-content a {
+        display: inline-block;
+        padding: 13px 22px;
+        border-radius: 30px;
+        color: #253c55;
+        background: #f2ce7f;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .about-location {
+        display: grid;
+        grid-template-columns: .8fr 1.2fr;
+        gap: 30px;
+        align-items: center;
+        margin: 80px 0;
+        padding: 30px;
+        border: 1px solid rgba(255,255,255,.8);
+        border-radius: 30px;
+        background: rgba(255,255,255,.65);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 15px 40px rgba(45,80,120,.07);
+    }
+
+    .location-detail {
+        display: flex;
+        gap: 14px;
+        margin: 25px 0;
+    }
+
+    .location-detail > span {
+        color: #b18430;
+        font-size: 1.5rem;
+    }
+
+    .location-detail strong {
+        font-weight: 800;
+    }
+
+    .location-detail p {
+        margin: 5px 0 0;
+        color: #728398;
+        line-height: 1.7;
+    }
+
+    .location-map {
+        height: 350px;
+        overflow: hidden;
+        border-radius: 22px;
+    }
+
+    .location-map iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .about-cta {
+        margin: 70px 0 35px;
+        padding: 55px 25px;
+        border: 1px solid rgba(255,255,255,.8);
+        border-radius: 30px;
+        text-align: center;
+        background: linear-gradient(135deg,rgba(220,239,255,.8),rgba(255,244,218,.8));
+        box-shadow: 0 15px 40px rgba(45,80,120,.07);
+    }
+
+    .about-cta h2 {
+        margin: 15px 0;
+        font-size: clamp(2rem,4vw,3rem);
+        font-weight: 900;
+    }
+
+    .about-cta p {
+        margin-bottom: 25px;
+        color: #708196;
+    }
+
+    @@media (max-width: 850px) {
+        .about-hero,
+        .about-story,
+        .about-location {
+            grid-template-columns: 1fr;
+        }
+
+        .about-highlights {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .about-hero-image {
+            min-height: 300px;
+        }
+
+        .about-story {
+            gap: 25px;
+        }
+    }
+
+    @@media (max-width: 500px) {
+        .about-hero {
+            padding: 22px;
+        }
+
+        .about-highlights {
+            grid-template-columns: 1fr;
+        }
+
+        .about-hero-buttons {
+            flex-direction: column;
+        }
+
+        .about-hero-buttons a {
+            width: 100%;
+        }
+
+        .story-image,
+        .food-showcase {
+            height: 290px;
+        }
+
+        .about-location {
+            padding: 20px;
+        }
+
+        .location-map {
+            height: 280px;
+        }
+    }
+</style>
+
+<script>
+    (() => {
+        const slideshow = document.querySelector(".slideshow");
+
+        if (!slideshow) return;
+
+        const slides = [...slideshow.querySelectorAll(".slide")];
+        const dots = [...slideshow.querySelectorAll(".slide-dot")];
+        const previous = slideshow.querySelector(".slide-arrow.prev");
+        const next = slideshow.querySelector(".slide-arrow.next");
+
+        let current = 0;
+        let timer;
+
+        function showSlide(index) {
+            current = (index + slides.length) % slides.length;
+
+            slides.forEach((slide, i) => {
+                slide.classList.toggle("active", i === current);
+            });
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle("active", i === current);
+            });
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            timer = setInterval(() => showSlide(current + 1), 5000);
+        }
+
+        previous.addEventListener("click", () => {
+            showSlide(current - 1);
+            startTimer();
+        });
+
+        next.addEventListener("click", () => {
+            showSlide(current + 1);
+            startTimer();
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener("click", () => {
+                showSlide(index);
+                startTimer();
+            });
+        });
+
+        slideshow.addEventListener("mouseenter", () => clearInterval(timer));
+        slideshow.addEventListener("mouseleave", startTimer);
+
+        showSlide(0);
+        startTimer();
+    })();
+</script>

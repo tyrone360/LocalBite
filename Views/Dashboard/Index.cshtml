@@ -1,0 +1,592 @@
+
+@{
+    ViewData["Title"] = "My Dashboard";
+}
+
+<div class="container py-5 dashboard-page">
+
+    <!-- WELCOME SECTION -->
+    <section class="dashboard-welcome mb-5">
+        <div class="dashboard-welcome-content">
+            <span class="dashboard-eyebrow">YOUR RESTAURANT SPACE</span>
+
+            <h1>
+                Welcome to <span>your food space.</span>
+            </h1>
+
+            <p>
+                Your personal food ordering dashboard.
+                Discover delicious meals and manage your food journey.
+            </p>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="btn btn-warning btn-lg mt-3">
+                Explore delicious food →
+            </a>
+        </div>
+
+        <div class="dashboard-welcome-image">
+            <div class="dashboard-slideshow">
+                <img src="~/images/food/burger.jpg"
+                     alt="Delicious burger"
+                     class="dashboard-slide slide-one" />
+
+                <img src="~/images/food/pizza.jpg"
+                     alt="Fresh pizza"
+                     class="dashboard-slide slide-two" />
+
+                <img src="~/images/food/chicken.jpg"
+                     alt="Delicious chicken"
+                     class="dashboard-slide slide-three" />
+
+                <img src="~/images/food/milkshake.jpg"
+                     alt="Chocolate milkshake"
+                     class="dashboard-slide slide-four" />
+            </div>
+
+            <div class="dashboard-image-label">
+                <span>MADE FOR YOUR CRAVINGS</span>
+                <h3>Good food.<br />Good mood.</h3>
+            </div>
+
+            <div class="dashboard-slide-indicator">
+                <span class="indicator-one"></span>
+                <span class="indicator-two"></span>
+                <span class="indicator-three"></span>
+                <span class="indicator-four"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- YOUR ACCOUNT -->
+    <section class="dashboard-section-heading mb-4">
+        <span class="dashboard-eyebrow">YOUR ACCOUNT</span>
+        <h2>Everything in one place.</h2>
+        <p>Choose where you would like to go next.</p>
+    </section>
+
+    <!-- ACCOUNT CARDS -->
+    <section class="row g-4 dashboard-cards">
+
+        <!-- 01 BROWSE MENU -->
+        <div class="col-md-4">
+            <article class="dashboard-card h-100">
+                <div class="dashboard-card-image">
+                    <img src="~/images/food/chicken.jpg"
+                         alt="Delicious chicken meal" />
+                    <span class="dashboard-card-number">01</span>
+                </div>
+
+                <div class="dashboard-card-body">
+                    <span class="dashboard-card-category">DISCOVER</span>
+                    <h3>Browse Menu</h3>
+
+                    <p>
+                        Explore delicious meals, discover your favourites
+                        and find something to satisfy your cravings.
+                    </p>
+
+                    <a asp-controller="Menu"
+                       asp-action="Index"
+                       class="btn btn-warning w-100 mt-auto">
+                        Explore Menu →
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <!-- 02 MY ORDERS -->
+        <div class="col-md-4">
+            <article class="dashboard-card h-100">
+                <div class="dashboard-card-image">
+                    <img src="~/images/food/pizza.jpg"
+                         alt="Freshly prepared pizza" />
+                    <span class="dashboard-card-number">02</span>
+                </div>
+
+                <div class="dashboard-card-body">
+                    <span class="dashboard-card-category">YOUR ACTIVITY</span>
+                    <h3>My Orders</h3>
+
+                    <p>
+                        View your order history, check order updates
+                        and follow your delivery progress.
+                    </p>
+
+                    <a asp-controller="Orders"
+                       asp-action="Index"
+                       class="btn btn-outline-warning w-100 mt-auto">
+                        View My Orders →
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <!-- 03 MY PROFILE -->
+        <div class="col-md-4">
+            <article class="dashboard-card h-100">
+                <div class="dashboard-profile-visual">
+                    <div class="profile-glass-circle">
+                        <img src="~/images/branding/restaurant-mark.svg"
+                             alt="Restaurant logo"
+                             class="dashboard-profile-logo" />
+                    </div>
+
+                    <span class="dashboard-card-number">03</span>
+                </div>
+
+                <div class="dashboard-card-body">
+                    <span class="dashboard-card-category">YOUR DETAILS</span>
+                    <h3>My Profile</h3>
+
+                    <p>
+                        View your account information, update your profile
+                        photo and manage your personal details.
+                    </p>
+
+                    <a asp-controller="Account"
+                       asp-action="Profile"
+                       class="btn btn-outline-warning w-100 mt-auto">
+                        View Profile →
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <!-- 04 ADMIN PANEL: ADMIN USERS ONLY -->
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col-md-4">
+                <article class="dashboard-card admin-dashboard-card h-100">
+
+                    <div class="admin-dashboard-visual">
+                        <div class="admin-glass-circle">
+                            <span>⚙</span>
+                        </div>
+
+                        <span class="dashboard-card-number">04</span>
+                    </div>
+
+                    <div class="dashboard-card-body">
+                        <span class="dashboard-card-category">
+                            RESTAURANT CONTROL
+                        </span>
+
+                        <h3>Admin Panel</h3>
+
+                        <p>
+                            Manage restaurant meals, update menu prices,
+                            view incoming orders and control your operations.
+                        </p>
+
+                        <a asp-controller="AdminDashboard"
+                           asp-action="Index"
+                           class="btn btn-warning w-100 mt-auto">
+                            Open Admin Dashboard →
+                        </a>
+                    </div>
+                </article>
+            </div>
+        }
+
+    </section>
+
+    <!-- BOTTOM MESSAGE -->
+    <section class="dashboard-bottom-message mt-5">
+        <div>
+            <span class="dashboard-eyebrow">A LITTLE SOMETHING DELICIOUS</span>
+            <h2>Your next favourite meal is waiting.</h2>
+            <p>Explore the menu and make your next meal memorable.</p>
+        </div>
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="btn btn-warning">
+            Start Exploring →
+        </a>
+    </section>
+
+</div>
+
+<style>
+    .dashboard-page {
+        padding-top: 25px !important;
+    }
+
+    .dashboard-welcome {
+        display: grid;
+        grid-template-columns: 1fr 0.85fr;
+        align-items: center;
+        gap: 35px;
+        padding: 38px;
+        border-radius: 30px;
+        border: 1px solid rgba(255,255,255,.85);
+        background:
+            radial-gradient(circle at 5% 5%, rgba(105,185,244,.17), transparent 40%),
+            linear-gradient(135deg, rgba(255,255,255,.88), rgba(226,242,255,.72));
+        box-shadow: 0 22px 60px rgba(55,105,145,.10);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+    }
+
+    .dashboard-welcome-content {
+        max-width: 580px;
+    }
+
+    .dashboard-eyebrow {
+        color: #347fc1;
+        font-size: .72rem;
+        font-weight: 850;
+        letter-spacing: 2px;
+    }
+
+    .dashboard-welcome h1 {
+        margin-top: 15px;
+        font-size: clamp(2.2rem, 5vw, 3.6rem);
+        font-weight: 850;
+        letter-spacing: -2.5px;
+        line-height: 1.1;
+    }
+
+    .dashboard-welcome h1 span {
+        color: #347fc1;
+        text-shadow: 0 0 20px rgba(75,159,232,.20);
+    }
+
+    .dashboard-welcome-content p {
+        max-width: 480px;
+        margin-top: 15px;
+        line-height: 1.8;
+    }
+
+    .dashboard-welcome-image {
+        position: relative;
+        min-height: 300px;
+        overflow: hidden;
+        border-radius: 24px;
+        box-shadow: 0 18px 40px rgba(25,53,80,.18);
+    }
+
+    .dashboard-welcome-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: linear-gradient(
+            180deg,
+            transparent 25%,
+            rgba(8,22,36,.78)
+        );
+    }
+
+    .dashboard-slideshow {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+    }
+
+    .dashboard-slide {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        animation: dashboardFoodFade 16s infinite;
+    }
+
+    .dashboard-slide.slide-one { animation-delay: 0s; }
+    .dashboard-slide.slide-two { animation-delay: 4s; }
+    .dashboard-slide.slide-three { animation-delay: 8s; }
+    .dashboard-slide.slide-four { animation-delay: 12s; }
+
+    .dashboard-image-label {
+        position: absolute;
+        z-index: 2;
+        bottom: 20px;
+        left: 22px;
+        color: white;
+        pointer-events: none;
+    }
+
+    .dashboard-image-label span {
+        color: #f1d28c;
+        font-size: .65rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+    }
+
+    .dashboard-image-label h3 {
+        color: white;
+        margin-top: 8px;
+        font-size: 1.7rem;
+        font-weight: 800;
+    }
+
+    .dashboard-slide-indicator {
+        position: absolute;
+        z-index: 3;
+        right: 22px;
+        bottom: 25px;
+        display: flex;
+        gap: 6px;
+    }
+
+    .dashboard-slide-indicator span {
+        width: 19px;
+        height: 4px;
+        border-radius: 10px;
+        background: rgba(255,255,255,.45);
+    }
+
+    .indicator-one { animation: indicatorOne 16s infinite; }
+    .indicator-two { animation: indicatorTwo 16s infinite; }
+    .indicator-three { animation: indicatorThree 16s infinite; }
+    .indicator-four { animation: indicatorFour 16s infinite; }
+
+    @@keyframes dashboardFoodFade {
+        0%, 22% {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+
+        25%, 97% {
+            opacity: 0;
+            transform: scale(1.10);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+    }
+
+    @@keyframes indicatorOne {
+        0%, 24% { background: #d3a64e; }
+        25%, 100% { background: rgba(255,255,255,.45); }
+    }
+
+    @@keyframes indicatorTwo {
+        0%, 24% { background: rgba(255,255,255,.45); }
+        25%, 49% { background: #d3a64e; }
+        50%, 100% { background: rgba(255,255,255,.45); }
+    }
+
+    @@keyframes indicatorThree {
+        0%, 49% { background: rgba(255,255,255,.45); }
+        50%, 74% { background: #d3a64e; }
+        75%, 100% { background: rgba(255,255,255,.45); }
+    }
+
+    @@keyframes indicatorFour {
+        0%, 74% { background: rgba(255,255,255,.45); }
+        75%, 99% { background: #d3a64e; }
+        100% { background: rgba(255,255,255,.45); }
+    }
+
+    .dashboard-section-heading h2 {
+        margin-top: 9px;
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        font-weight: 850;
+        letter-spacing: -1.2px;
+    }
+
+    .dashboard-section-heading p {
+        margin-bottom: 0;
+    }
+
+    .dashboard-card {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-radius: 24px;
+        border: 1px solid rgba(255,255,255,.85);
+        background: rgba(255,255,255,.55);
+        box-shadow: 0 15px 38px rgba(55,105,145,.09);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 23px 48px rgba(55,105,145,.15);
+    }
+
+    .dashboard-card-image,
+    .dashboard-profile-visual,
+    .admin-dashboard-visual {
+        position: relative;
+        height: 190px;
+        overflow: hidden;
+    }
+
+    .dashboard-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .6s ease;
+    }
+
+    .dashboard-card:hover .dashboard-card-image img {
+        transform: scale(1.07);
+    }
+
+    .dashboard-card-number {
+        position: absolute;
+        top: 15px;
+        right: 17px;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        color: #203247;
+        background: rgba(255,255,255,.78);
+        border: 1px solid rgba(255,255,255,.85);
+        font-size: .75rem;
+        font-weight: 850;
+        backdrop-filter: blur(12px);
+    }
+
+    .dashboard-card-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        padding: 25px;
+    }
+
+    .dashboard-card-category {
+        color: #ad842f;
+        font-size: .66rem;
+        font-weight: 850;
+        letter-spacing: 1.5px;
+    }
+
+    .dashboard-card-body h3 {
+        margin-top: 8px;
+        font-size: 1.5rem;
+        font-weight: 850;
+    }
+
+    .dashboard-card-body p {
+        flex: 1;
+        font-size: .92rem;
+        line-height: 1.75;
+        margin-bottom: 25px;
+    }
+
+    .dashboard-profile-visual {
+        display: grid;
+        place-items: center;
+        background:
+            radial-gradient(circle at 25% 20%, rgba(255,255,255,.9), transparent 35%),
+            linear-gradient(135deg, #dcefff, #f7f2e6);
+    }
+
+    .profile-glass-circle,
+    .admin-glass-circle {
+        display: grid;
+        place-items: center;
+        width: 105px;
+        height: 105px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.38);
+        border: 1px solid rgba(255,255,255,.9);
+        box-shadow:
+            0 15px 35px rgba(55,105,145,.12),
+            inset 0 1px 0 rgba(255,255,255,.9);
+        backdrop-filter: blur(20px);
+    }
+
+    .dashboard-profile-logo {
+        width: 76px;
+        height: 76px;
+        object-fit: contain;
+        filter: drop-shadow(0 5px 8px rgba(36,92,168,.18));
+    }
+
+    /* ADMIN PANEL VISUAL */
+
+    .admin-dashboard-visual {
+        display: grid;
+        place-items: center;
+        background:
+            radial-gradient(circle at 25% 20%, rgba(255,255,255,.9), transparent 35%),
+            linear-gradient(135deg, #e5edff, #f8edda);
+    }
+
+    .admin-glass-circle span {
+        color: #347fc1;
+        font-size: 2.8rem;
+        font-weight: 800;
+    }
+
+    .admin-dashboard-card {
+        border-color: rgba(211,166,78,.35);
+    }
+
+    .dashboard-bottom-message {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 25px;
+        padding: 32px;
+        border-radius: 25px;
+        border: 1px solid rgba(255,255,255,.9);
+        background: linear-gradient(120deg, rgba(220,239,255,.75), rgba(255,255,255,.65));
+        box-shadow: 0 15px 35px rgba(55,105,145,.07);
+    }
+
+    .dashboard-bottom-message h2 {
+        margin-top: 9px;
+        font-size: 1.55rem;
+        font-weight: 850;
+    }
+
+    .dashboard-bottom-message p {
+        margin-bottom: 0;
+    }
+
+    @@media (max-width: 767.98px) {
+        .dashboard-welcome {
+            grid-template-columns: 1fr;
+            padding: 25px 20px;
+            border-radius: 24px;
+        }
+
+        .dashboard-welcome-image {
+            min-height: 250px;
+        }
+
+        .dashboard-card-image,
+        .dashboard-profile-visual,
+        .admin-dashboard-visual {
+            height: 175px;
+        }
+
+        .dashboard-bottom-message {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 25px 20px;
+        }
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .dashboard-slide,
+        .dashboard-slide-indicator span {
+            animation: none !important;
+        }
+
+        .dashboard-slide:first-child {
+            opacity: 1;
+        }
+
+        .dashboard-slide:not(:first-child) {
+            opacity: 0;
+        }
+    }
+</style>

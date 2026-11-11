@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewData["Title"] = "Fresh Food, Delivered";
+}
+
+<div class="container py-4 home-page">
+
+    <!-- HERO -->
+    <section class="home-hero mb-5">
+        <div class="home-hero-content">
+            <div class="row align-items-center g-4">
+
+                <div class="col-lg-6">
+                    <span class="hero-eyebrow">
+                        YOUR FOOD, YOUR WAY
+                    </span>
+
+                    <h1 class="hero-title mt-3">
+                        Good food.<br />
+                        <span>Good mood.</span>
+                    </h1>
+
+                    <p class="hero-description mt-3 mb-4">
+                        Discover delicious meals, explore your cravings
+                        and enjoy a simple food ordering experience.
+                    </p>
+
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#categories" class="btn btn-warning btn-lg">
+                            Explore food →
+                        </a>
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <a asp-controller="Dashboard"
+                               asp-action="Index"
+                               class="btn btn-outline-primary btn-lg">
+                                My Dashboard
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account"
+                               asp-action="Register"
+                               class="btn btn-outline-primary btn-lg">
+                                Join LocalBite
+                            </a>
+                        }
+                    </div>
+
+                    <div class="hero-trust mt-4">
+                        <span>Fresh cravings</span>
+                        <span class="trust-dot"></span>
+                        <span>Easy ordering</span>
+                        <span class="trust-dot"></span>
+                        <span>Local flavour</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="hero-image-wrap">
+                        <img src="~/images/food/burger.jpg"
+                             alt="Delicious burger"
+                             class="hero-food-image" />
+
+                        <div class="hero-image-glass">
+                            <span>MADE FOR YOUR CRAVINGS</span>
+                            <h3>Something delicious<br />is waiting.</h3>
+                        </div>
+
+                        <div class="hero-floating-label">
+                            <span class="floating-dot"></span>
+                            Fresh food inspiration
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOD CATEGORIES -->
+    <section id="categories" class="mb-5">
+
+        <div class="section-heading mb-4">
+            <div>
+                <span class="section-eyebrow">EXPLORE OUR SELECTION</span>
+                <h2>What are you craving?</h2>
+                <p>Find something delicious for your next meal.</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-6 col-lg-3">
+                <div class="food-category-card">
+                    <img src="~/images/food/burger.jpg"
+                         alt="Juicy burger" />
+                    <div class="food-category-overlay">
+                        <span>01 / FAVOURITES</span>
+                        <h3>Burgers</h3>
+                        <p>Juicy favourites</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="food-category-card">
+                    <img src="~/images/food/pizza.jpg"
+                         alt="Freshly prepared pizza" />
+                    <div class="food-category-overlay">
+                        <span>02 / CLASSICS</span>
+                        <h3>Pizza</h3>
+                        <p>A slice of happiness</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="food-category-card">
+                    <img src="~/images/food/chicken.jpg"
+                         alt="Delicious crispy chicken" />
+                    <div class="food-category-overlay">
+                        <span>03 / SPECIALS</span>
+                        <h3>Chicken</h3>
+                        <p>Full of flavour</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="food-category-card">
+                    <img src="~/images/food/milkshake.jpg"
+                         alt="Chocolate milkshake" />
+                    <div class="food-category-overlay">
+                        <span>04 / REFRESH</span>
+                        <h3>Drinks</h3>
+                        <p>Refresh yourself</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="glass-panel process-section p-4 p-md-5 mb-5">
+
+        <div class="text-center mb-5">
+            <span class="section-eyebrow">SIMPLE & EASY</span>
+            <h2>Good food in three steps.</h2>
+            <p>We've made ordering your next meal simple.</p>
+        </div>
+
+        <div class="row g-4 text-center">
+
+            <div class="col-md-4">
+                <div class="process-number">01</div>
+                <h4>Explore</h4>
+                <p>Discover available meals and choose your favourites.</p>
+            </div>
+
+            <div class="col-md-4">
+                <div class="process-number">02</div>
+                <h4>Order</h4>
+                <p>Add your selections to your cart and place your order.</p>
+            </div>
+
+            <div class="col-md-4">
+                <div class="process-number">03</div>
+                <h4>Enjoy</h4>
+                <p>Follow your order progress and get ready to enjoy.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FINAL CALL TO ACTION -->
+    <section class="home-final-cta mb-4">
+        <div>
+            <span class="section-eyebrow">YOUR NEXT MEAL STARTS HERE</span>
+            <h2>Ready for something delicious?</h2>
+            <p>Your next favourite meal could be waiting for you.</p>
+
+            <a asp-controller="Account"
+               asp-action="Register"
+               class="btn btn-warning btn-lg mt-2">
+                Get Started →
+            </a>
+        </div>
+    </section>
+
+</div>

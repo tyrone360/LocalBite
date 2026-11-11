@@ -1,0 +1,243 @@
+
+@model LocalBite.Models.ViewModels.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<section class="checkout-page">
+    <div class="checkout-heading">
+        <span class="checkout-label">LOCALBITE • FINAL STEP</span>
+        <h1>Complete Your Order</h1>
+        <p>Please provide your delivery details and choose your payment method.</p>
+    </div>
+
+    <div class="checkout-card">
+        <form asp-controller="Checkout" asp-action="PlaceOrder" method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="validation-message"></div>
+
+            <div class="checkout-section">
+                <h2>Delivery Information</h2>
+
+                <div class="form-group">
+                    <label asp-for="FullName"></label>
+                    <input asp-for="FullName" class="checkout-input" placeholder="Enter your full name" />
+                    <span asp-validation-for="FullName" class="field-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="checkout-input" placeholder="you@example.com" />
+                    <span asp-validation-for="Email" class="field-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PhoneNumber"></label>
+                    <input asp-for="PhoneNumber" class="checkout-input" placeholder="Enter your phone number" />
+                    <span asp-validation-for="PhoneNumber" class="field-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DeliveryAddress"></label>
+                    <textarea asp-for="DeliveryAddress" class="checkout-input" rows="3" placeholder="Enter your full delivery address"></textarea>
+                    <span asp-validation-for="DeliveryAddress" class="field-error"></span>
+                </div>
+            </div>
+
+            <div class="checkout-section">
+                <h2>Payment Method</h2>
+
+                <div class="payment-option">
+                    <input asp-for="PaymentMethod" type="radio" value="Cash on Delivery" id="cashPayment" />
+                    <label for="cashPayment">
+                        <strong>Cash on Delivery</strong>
+                        <span>Pay when your order arrives.</span>
+                    </label>
+                </div>
+
+                <div class="payment-option">
+                    <input asp-for="PaymentMethod" type="radio" value="EFT" id="eftPayment" />
+                    <label for="eftPayment">
+                        <strong>Electronic Funds Transfer (EFT)</strong>
+                        <span>Pay by bank transfer. Payment will be verified manually.</span>
+                    </label>
+                </div>
+
+                <span asp-validation-for="PaymentMethod" class="field-error"></span>
+            </div>
+
+            <div class="checkout-section">
+                <h2>Additional Instructions</h2>
+
+                <div class="form-group">
+                    <label asp-for="Notes"></label>
+                    <textarea asp-for="Notes" class="checkout-input" rows="3" placeholder="Any special delivery instructions?"></textarea>
+                    <span asp-validation-for="Notes" class="field-error"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="place-order-button">
+                Confirm Order →
+            </button>
+
+            <a asp-controller="Cart" asp-action="Index" class="back-to-cart">
+                ← Back to Cart
+            </a>
+        </form>
+    </div>
+</section>
+
+<style>
+    .checkout-page {
+        max-width: 850px;
+        margin: 55px auto;
+        padding: 20px;
+    }
+
+    .checkout-heading {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .checkout-label {
+        color: #b58b32;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 3px;
+    }
+
+    .checkout-heading h1 {
+        font-size: clamp(30px, 5vw, 44px);
+        font-weight: 800;
+        margin: 12px 0;
+        color: var(--bs-body-color, #172033);
+    }
+
+    .checkout-heading p {
+        opacity: .7;
+    }
+
+    .checkout-card {
+        padding: 35px;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, .65);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, .8);
+        box-shadow: 0 20px 60px rgba(30, 60, 100, .10);
+    }
+
+    .checkout-section {
+        margin-bottom: 32px;
+    }
+
+    .checkout-section h2 {
+        font-size: 19px;
+        font-weight: 750;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 650;
+        margin-bottom: 8px;
+    }
+
+    .checkout-input {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid rgba(100, 120, 150, .25);
+        background: rgba(255, 255, 255, .8);
+        color: #172033;
+        outline: none;
+        transition: border-color .2s, box-shadow .2s;
+    }
+
+    .checkout-input:focus {
+        border-color: #3678d8;
+        box-shadow: 0 0 0 4px rgba(54, 120, 216, .12);
+    }
+
+    .payment-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 13px;
+        padding: 17px;
+        margin-bottom: 12px;
+        border-radius: 16px;
+        border: 1px solid rgba(100, 120, 150, .2);
+        background: rgba(255, 255, 255, .55);
+    }
+
+    .payment-option input {
+        margin-top: 5px;
+        accent-color: #3678d8;
+    }
+
+    .payment-option label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+    .payment-option span {
+        font-size: 13px;
+        opacity: .7;
+    }
+
+    .place-order-button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 16px;
+        background: linear-gradient(110deg, #2869c7, #d3a443);
+        color: white;
+        font-weight: 800;
+        font-size: 16px;
+        cursor: pointer;
+        transition: transform .2s, box-shadow .2s;
+    }
+
+    .place-order-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(40, 105, 199, .2);
+    }
+
+    .back-to-cart {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #3678d8;
+        text-decoration: none;
+        font-weight: 650;
+    }
+
+    .field-error,
+    .validation-message {
+        color: #c0392b;
+        font-size: 13px;
+    }
+
+    @@media (max-width: 600px) {
+        .checkout-page {
+            margin: 25px auto;
+            padding: 12px;
+        }
+
+        .checkout-card {
+            padding: 22px 17px;
+        }
+    }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

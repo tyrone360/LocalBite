@@ -1,0 +1,375 @@
+
+@model IEnumerable<LocalBite.Models.MenuItem>
+
+@{
+    ViewData["Title"] = "Our Menu";
+    var zar = System.Globalization.CultureInfo.GetCultureInfo("en-ZA");
+}
+
+<div class="container py-5 menu-page">
+
+    <section class="menu-hero mb-5">
+        <div class="menu-hero-top">
+            <div>
+                <span class="menu-eyebrow">FRESHLY PREPARED FOR YOU</span>
+                <h1>Explore our <span>Menu.</span></h1>
+                <p>Discover something delicious and find your next favourite meal.</p>
+            </div>
+
+            <a asp-controller="Cart"
+               asp-action="Index"
+               class="menu-cart-link">
+                <span>🛒</span> View Cart →
+            </a>
+        </div>
+    </section>
+
+    @if (TempData["CartMessage"] != null)
+    {
+        <div class="menu-cart-message mb-4">
+            @TempData["CartMessage"]
+        </div>
+    }
+
+    <div class="menu-section-heading mb-4">
+        <div>
+            <span class="menu-eyebrow">MADE FOR YOUR CRAVINGS</span>
+            <h2>Today's selection</h2>
+        </div>
+
+        <span class="menu-count">
+            @Model.Count() @(Model.Count() == 1 ? "ITEM" : "ITEMS")
+        </span>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <section class="menu-empty">
+            <h3>Our menu is getting ready.</h3>
+            <p>Please check back soon for delicious meals.</p>
+        </section>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-sm-6 col-lg-4 col-xl-3">
+                    <article class="menu-food-card">
+
+                        <div class="menu-food-image-wrap">
+                            @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                            {
+                                <img src="@item.ImageUrl"
+                                     alt="@item.Name"
+                                     class="menu-food-image" />
+                            }
+                            else
+                            {
+                                <div class="menu-no-image">
+                                    LOCALBITE
+                                </div>
+                            }
+
+                            <span class="menu-availability">
+                                Available
+                            </span>
+                        </div>
+
+                        <div class="menu-food-content">
+                            <span class="menu-food-label">LOCALBITE SELECTION</span>
+
+                            <h3>@item.Name</h3>
+
+                            <p>
+                                @(string.IsNullOrWhiteSpace(item.Description)
+                                    ? "Prepared fresh for your enjoyment."
+                                    : item.Description)
+                            </p>
+
+                            <div class="menu-food-bottom">
+                                <strong>
+                                    @item.Price.ToString("C2", zar)
+                                </strong>
+                                <span>Fresh choice</span>
+                            </div>
+
+                            <form asp-controller="Cart"
+                                  asp-action="Add"
+                                  method="post"
+                                  class="menu-add-form">
+
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden"
+                                       name="menuItemId"
+                                       value="@item.Id" />
+
+                                <input type="hidden"
+                                       name="quantity"
+                                       value="1" />
+
+                                <button type="submit"
+                                        class="btn btn-warning w-100">
+                                    + Add to Cart
+                                </button>
+
+                            </form>
+                        </div>
+
+                    </article>
+                </div>
+            }
+
+        </div>
+    }
+
+    <div class="menu-back-link mt-5">
+        <a asp-controller="Dashboard" asp-action="Index">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+<style>
+    .menu-page {
+        min-height: 65vh;
+    }
+
+    .menu-hero {
+        padding: 48px 40px;
+        border-radius: 30px;
+        background: linear-gradient(130deg, rgba(255,255,255,.9), rgba(220,239,255,.72));
+        border: 1px solid rgba(255,255,255,.9);
+        box-shadow: 0 18px 45px rgba(55,105,145,.09);
+    }
+
+    .menu-hero-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .menu-eyebrow {
+        color: #347fc1;
+        font-size: .7rem;
+        font-weight: 850;
+        letter-spacing: 1.8px;
+    }
+
+    .menu-hero h1 {
+        margin: 12px 0;
+        color: #203247;
+        font-size: clamp(2.5rem, 5vw, 3.8rem);
+        font-weight: 850;
+        letter-spacing: -2px;
+    }
+
+    .menu-hero h1 span {
+        color: #347fc1;
+    }
+
+    .menu-hero p {
+        margin: 0;
+        color: #718399;
+    }
+
+    .menu-cart-link {
+        flex-shrink: 0;
+        padding: 13px 20px;
+        border-radius: 30px;
+        background: rgba(255,255,255,.75);
+        border: 1px solid rgba(255,255,255,.95);
+        color: #347fc1;
+        font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(55,105,145,.08);
+        transition: .25s ease;
+    }
+
+    .menu-cart-link:hover {
+        transform: translateY(-3px);
+        color: #ad842f;
+    }
+
+    .menu-cart-message {
+        padding: 15px 20px;
+        border-radius: 15px;
+        color: #28794e;
+        background: rgba(210,245,225,.7);
+        border: 1px solid rgba(40,150,90,.2);
+        font-weight: 700;
+    }
+
+    .menu-section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .menu-section-heading h2 {
+        margin: 8px 0 0;
+        color: #203247;
+        font-weight: 850;
+    }
+
+    .menu-count {
+        color: #718399;
+        font-size: .75rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+
+    .menu-food-card {
+        height: 100%;
+        overflow: hidden;
+        border-radius: 25px;
+        background: rgba(255,255,255,.7);
+        border: 1px solid rgba(255,255,255,.95);
+        box-shadow: 0 15px 38px rgba(55,105,145,.09);
+        backdrop-filter: blur(22px);
+        transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .menu-food-card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 22px 45px rgba(55,105,145,.15);
+    }
+
+    .menu-food-image-wrap {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+        background: #e9f1f7;
+    }
+
+    .menu-food-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .5s ease;
+    }
+
+    .menu-food-card:hover .menu-food-image {
+        transform: scale(1.06);
+    }
+
+    .menu-availability {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        padding: 7px 12px;
+        border-radius: 30px;
+        background: rgba(255,255,255,.9);
+        color: #28794e;
+        font-size: .7rem;
+        font-weight: 800;
+        backdrop-filter: blur(12px);
+    }
+
+    .menu-no-image {
+        display: grid;
+        place-items: center;
+        height: 100%;
+        color: #347fc1;
+        font-weight: 900;
+        letter-spacing: 3px;
+    }
+
+    .menu-food-content {
+        display: flex;
+        flex-direction: column;
+        min-height: 250px;
+        padding: 22px;
+    }
+
+    .menu-food-label {
+        color: #347fc1;
+        font-size: .63rem;
+        font-weight: 850;
+        letter-spacing: 1.3px;
+    }
+
+    .menu-food-content h3 {
+        margin: 10px 0;
+        color: #203247;
+        font-size: 1.2rem;
+        font-weight: 850;
+    }
+
+    .menu-food-content p {
+        flex-grow: 1;
+        color: #718399;
+        font-size: .88rem;
+        line-height: 1.7;
+    }
+
+    .menu-food-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 0;
+        border-top: 1px solid rgba(117,159,193,.2);
+    }
+
+    .menu-food-bottom strong {
+        color: #347fc1;
+        font-size: 1.25rem;
+        font-weight: 850;
+    }
+
+    .menu-food-bottom span {
+        color: #ad842f;
+        font-size: .7rem;
+        font-weight: 750;
+    }
+
+    .menu-add-form {
+        margin-top: 12px;
+    }
+
+    .menu-add-form button {
+        border-radius: 13px;
+        padding: 12px;
+        font-weight: 800;
+    }
+
+    .menu-empty {
+        padding: 60px 25px;
+        text-align: center;
+        border-radius: 25px;
+        background: rgba(255,255,255,.65);
+        color: #718399;
+    }
+
+    .menu-empty h3 {
+        color: #203247;
+        font-weight: 850;
+    }
+
+    .menu-back-link a {
+        color: #347fc1;
+        font-weight: 750;
+        text-decoration: none;
+    }
+
+    @@media (max-width: 576px) {
+        .menu-hero {
+            padding: 30px 22px;
+        }
+
+        .menu-hero-top {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .menu-food-image-wrap {
+            height: 190px;
+        }
+    }
+</style>

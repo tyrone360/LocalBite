@@ -1,0 +1,275 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    string? navProfilePhoto = null;
+    string navInitial = "U";
+    string navUsername = "User";
+
+    if (User.Identity?.IsAuthenticated == true)
+    {
+        var navUser = await UserManager.GetUserAsync(User);
+
+        if (navUser != null)
+        {
+            if (!string.IsNullOrWhiteSpace(navUser.UserName))
+            {
+                navUsername = navUser.UserName;
+                navInitial = navUsername.Substring(0, 1).ToUpper();
+            }
+
+            var navClaims = await UserManager.GetClaimsAsync(navUser);
+
+            navProfilePhoto = navClaims
+                .FirstOrDefault(c => c.Type == "ProfilePhoto")?.Value;
+        }
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LocalBite</title>
+
+    <script type="importmap"></script>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LocalBite.styles.css" asp-append-version="true" />
+
+    <style>
+        .navbar-brand-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .navbar-brand-logo img {
+            display: block;
+            width: 49px;
+            height: 49px;
+            object-fit: contain;
+            transition: transform .25s ease;
+        }
+
+        .navbar-brand-logo:hover img {
+            transform: scale(1.07);
+        }
+
+        @@media (max-width: 991px) {
+            .navbar-brand-logo img {
+                width: 43px;
+                height: 43px;
+            }
+        }
+
+        @@media (prefers-reduced-motion: reduce) {
+            .navbar-brand-logo img {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light localbite-navbar">
+            <div class="container-fluid px-4">
+
+                <a class="navbar-brand navbar-brand-logo"
+                   asp-controller="Home"
+                   asp-action="Index"
+                   aria-label="Go to homepage">
+
+                    <img src="~/images/branding/restaurant-mark.svg"
+                         asp-append-version="true"
+                         alt="Restaurant logo" />
+                </a>
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="About">About Us</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Menu"
+                               asp-action="Index">Menu</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Cart"
+                               asp-action="Index">Cart</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Privacy">Privacy</a>
+                        </li>
+
+                    </ul>
+
+                    <ul class="navbar-nav align-items-lg-center">
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Account"
+                                   asp-action="Profile"
+                                   class="nav-link d-flex align-items-center gap-2">
+
+                                    @if (!string.IsNullOrWhiteSpace(navProfilePhoto))
+                                    {
+                                        <img src="@navProfilePhoto"
+                                             alt="Profile photo"
+                                             class="rounded-circle"
+                                             style="width:36px;height:36px;object-fit:cover;border:2px solid #d3a64e;" />
+                                    }
+                                    else
+                                    {
+                                        <span class="rounded-circle d-inline-flex align-items-center justify-content-center"
+                                              style="width:36px;height:36px;background:linear-gradient(135deg,#dcefff,#fff3d7);color:#347fc1;font-weight:800;border:2px solid #d3a64e;">
+                                            @navInitial
+                                        </span>
+                                    }
+
+                                    <span>Welcome, @navUsername</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-controller="Dashboard"
+                                   asp-action="Index">Dashboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-controller="Account"
+                                   asp-action="Profile">Profile</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <form asp-controller="Account"
+                                      asp-action="Logout"
+                                      method="post"
+                                      class="d-inline">
+
+                                    <button type="submit"
+                                            class="btn btn-outline-warning btn-sm ms-lg-2">
+                                        Sign Out
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   asp-controller="Account"
+                                   asp-action="Login">Sign In</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="btn btn-warning btn-sm ms-lg-2"
+                                   asp-controller="Account"
+                                   asp-action="Register">Create Account</a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="localbite-footer">
+        <div class="container footer-content">
+
+            <div class="footer-brand">
+                LocalBite<span>.</span>
+            </div>
+
+            <p>Good food. Good mood. Made for food lovers.</p>
+
+            <div class="footer-bottom">
+                <span>
+                    &copy; @DateTime.Now.Year LocalBite. All rights reserved.
+                </span>
+
+                <a asp-controller="Home" asp-action="Privacy">
+                    Privacy Policy
+                </a>
+            </div>
+
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        // Register LocalBite's service worker.
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", async () => {
+                try {
+                    await navigator.serviceWorker.register("/service-worker.js");
+                    console.log("LocalBite offline support is ready.");
+                } catch (error) {
+                    console.error("Offline support registration failed:", error);
+                }
+            });
+        }
+
+        // Automatically open the offline page when the connection drops.
+        window.addEventListener("offline", () => {
+            const currentPath = window.location.pathname.toLowerCase();
+
+            // Prevent redirecting the offline page to itself.
+            if (currentPath !== "/home/offline") {
+                window.location.replace("/Home/Offline");
+            }
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

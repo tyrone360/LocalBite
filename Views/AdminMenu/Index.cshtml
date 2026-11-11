@@ -1,0 +1,534 @@
+
+@model IEnumerable<LocalBite.Models.MenuItem>
+
+@{
+    ViewData["Title"] = "Menu Management";
+
+    var menuItems = Model.ToList();
+    var totalItems = menuItems.Count;
+    var availableItems = menuItems.Count(item => item.IsAvailable);
+    var unavailableItems = totalItems - availableItems;
+}
+
+<style>
+    .admin-menu-page {
+        max-width: 1250px;
+        margin: 35px auto 70px;
+        padding: 20px;
+        color: #17243b;
+    }
+
+    .menu-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 38px;
+        margin-bottom: 28px;
+        border: 1px solid rgba(255,255,255,.85);
+        border-radius: 30px;
+        background:
+            radial-gradient(circle at 90% 10%, rgba(230,190,110,.25), transparent 32%),
+            linear-gradient(135deg, rgba(255,255,255,.9), rgba(230,240,255,.75));
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        box-shadow: 0 18px 50px rgba(31,55,100,.09);
+    }
+
+    .menu-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 13px;
+        margin-bottom: 15px;
+        border-radius: 30px;
+        background: rgba(35,91,170,.09);
+        color: #2459a1;
+        font-size: .72rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+    }
+
+    .menu-eyebrow span {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #d7a64b;
+    }
+
+    .menu-hero-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 22px;
+    }
+
+    .menu-hero h1 {
+        margin: 0;
+        color: #152b4c;
+        font-size: clamp(2rem, 5vw, 3.1rem);
+        font-weight: 850;
+        letter-spacing: -1.5px;
+    }
+
+    .menu-hero h1 span {
+        color: #bd8a35;
+    }
+
+    .menu-hero p {
+        margin: 10px 0 0;
+        color: #66758c;
+        font-size: .98rem;
+    }
+
+    .add-menu-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 13px 22px;
+        border: 0;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #245ca8, #173f79);
+        color: white;
+        font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(36,92,168,.2);
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .add-menu-btn:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(36,92,168,.28);
+    }
+
+    .menu-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
+    .menu-stat {
+        padding: 22px;
+        border: 1px solid rgba(255,255,255,.85);
+        border-radius: 22px;
+        background: rgba(255,255,255,.7);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: 0 10px 30px rgba(31,55,100,.06);
+    }
+
+    .menu-stat-label {
+        color: #748198;
+        font-size: .82rem;
+        font-weight: 650;
+    }
+
+    .menu-stat-value {
+        display: block;
+        margin-top: 8px;
+        color: #1b3459;
+        font-size: 2rem;
+        font-weight: 850;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .menu-stat-line {
+        width: 35px;
+        height: 4px;
+        margin-top: 13px;
+        border-radius: 10px;
+        background: #d7a64b;
+    }
+
+    .menu-section-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 35px 2px 18px;
+    }
+
+    .menu-section-heading h2 {
+        margin: 0;
+        color: #1b3459;
+        font-size: 1.35rem;
+        font-weight: 850;
+    }
+
+    .menu-section-heading p {
+        margin: 5px 0 0;
+        color: #7b879a;
+        font-size: .86rem;
+    }
+
+    .menu-card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .admin-food-card {
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,.9);
+        border-radius: 24px;
+        background: rgba(255,255,255,.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 12px 35px rgba(31,55,100,.07);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .admin-food-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 40px rgba(31,55,100,.12);
+    }
+
+    .food-image-wrap {
+        position: relative;
+        height: 205px;
+        overflow: hidden;
+        background: #eaf0f7;
+    }
+
+    .food-image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        transition: transform .4s ease;
+    }
+
+    .admin-food-card:hover .food-image {
+        transform: scale(1.045);
+    }
+
+    .food-image-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #8795aa;
+        font-size: .9rem;
+    }
+
+    .availability-badge {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 11px;
+        border: 1px solid rgba(255,255,255,.8);
+        border-radius: 30px;
+        backdrop-filter: blur(12px);
+        font-size: .73rem;
+        font-weight: 800;
+    }
+
+    .availability-badge::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+
+    .available {
+        background: rgba(226,247,235,.93);
+        color: #21834c;
+    }
+
+    .unavailable {
+        background: rgba(255,240,224,.94);
+        color: #a65b13;
+    }
+
+    .food-card-body {
+        padding: 20px;
+    }
+
+    .food-card-body h3 {
+        margin: 0 0 8px;
+        color: #1b3459;
+        font-size: 1.13rem;
+        font-weight: 850;
+    }
+
+    .food-description {
+        min-height: 44px;
+        margin: 0 0 16px;
+        color: #7b879a;
+        font-size: .87rem;
+        line-height: 1.6;
+    }
+
+    .food-price {
+        margin-bottom: 17px;
+        color: #bd8a35;
+        font-size: 1.4rem;
+        font-weight: 900;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .food-card-actions {
+        display: flex;
+        gap: 10px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(215,225,240,.75);
+    }
+
+    .food-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        min-height: 42px;
+        padding: 9px 13px;
+        border-radius: 12px;
+        font-size: .84rem;
+        font-weight: 800;
+        text-decoration: none;
+        transition: transform .2s ease, background .2s ease;
+    }
+
+    .food-action:hover {
+        transform: translateY(-2px);
+    }
+
+    .food-edit {
+        background: #e8f1ff;
+        color: #245ca8;
+    }
+
+    .food-edit:hover {
+        background: #d9e8ff;
+        color: #174783;
+    }
+
+    .food-delete {
+        background: #fff0f0;
+        color: #bd4444;
+    }
+
+    .food-delete:hover {
+        background: #ffe0e0;
+        color: #a42f2f;
+    }
+
+    .menu-alert {
+        padding: 15px 18px;
+        margin-bottom: 22px;
+        border: 1px solid rgba(32,164,107,.18);
+        border-radius: 15px;
+        background: rgba(226,247,235,.85);
+        color: #176b43;
+        font-weight: 650;
+    }
+
+    .empty-menu {
+        padding: 55px 25px;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,.85);
+        border-radius: 25px;
+        background: rgba(255,255,255,.72);
+        box-shadow: 0 12px 35px rgba(31,55,100,.06);
+    }
+
+    .empty-menu h3 {
+        color: #1b3459;
+        font-weight: 850;
+    }
+
+    .empty-menu p {
+        color: #7b879a;
+    }
+
+    @@media (max-width: 950px) {
+        .menu-card-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .admin-menu-page {
+            margin-top: 20px;
+            padding: 12px;
+        }
+
+        .menu-hero {
+            padding: 26px 22px;
+            border-radius: 23px;
+        }
+
+        .menu-hero-content {
+            align-items: stretch;
+        }
+
+        .add-menu-btn {
+            width: 100%;
+        }
+
+        .menu-stats {
+            gap: 10px;
+        }
+
+        .menu-stat {
+            padding: 15px 12px;
+        }
+
+        .menu-stat-value {
+            font-size: 1.55rem;
+        }
+
+        .menu-stat-label {
+            font-size: .72rem;
+        }
+
+        .menu-card-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .food-image-wrap {
+            height: 220px;
+        }
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .admin-food-card,
+        .food-image,
+        .food-action,
+        .add-menu-btn {
+            transition: none;
+        }
+    }
+</style>
+
+<section class="admin-menu-page">
+
+    <header class="menu-hero">
+        <div class="menu-eyebrow">
+            <span></span>
+            LOCALBITE ADMINISTRATION
+        </div>
+
+        <div class="menu-hero-content">
+            <div>
+                <h1>Menu <span>Management.</span></h1>
+                <p>Manage your restaurant meals, prices and availability.</p>
+            </div>
+
+            <a asp-action="Create" class="add-menu-btn">
+                <span aria-hidden="true">＋</span>
+                Add New Meal
+            </a>
+        </div>
+    </header>
+
+    @if (TempData["AdminMenuMessage"] != null)
+    {
+        <div class="menu-alert" role="status">
+            @TempData["AdminMenuMessage"]
+        </div>
+    }
+
+    <div class="menu-stats">
+        <div class="menu-stat">
+            <span class="menu-stat-label">Total Menu Items</span>
+            <strong class="menu-stat-value">@totalItems</strong>
+            <div class="menu-stat-line"></div>
+        </div>
+
+        <div class="menu-stat">
+            <span class="menu-stat-label">Available Meals</span>
+            <strong class="menu-stat-value">@availableItems</strong>
+            <div class="menu-stat-line"></div>
+        </div>
+
+        <div class="menu-stat">
+            <span class="menu-stat-label">Unavailable Meals</span>
+            <strong class="menu-stat-value">@unavailableItems</strong>
+            <div class="menu-stat-line"></div>
+        </div>
+    </div>
+
+    <div class="menu-section-heading">
+        <div>
+            <h2>Your Restaurant Menu</h2>
+            <p>Manage the meals customers can order.</p>
+        </div>
+    </div>
+
+    @if (!menuItems.Any())
+    {
+        <div class="empty-menu">
+            <h3>Your menu is waiting</h3>
+            <p>Add your first meal to get started.</p>
+            <a asp-action="Create" class="add-menu-btn">
+                Add Your First Meal
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="menu-card-grid">
+            @foreach (var item in menuItems)
+            {
+                <article class="admin-food-card">
+
+                    <div class="food-image-wrap">
+                        @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl"
+                                 alt="@item.Name"
+                                 class="food-image"
+                                 loading="lazy" />
+                        }
+                        else
+                        {
+                            <div class="food-image-placeholder">
+                                No meal image available
+                            </div>
+                        }
+
+                        <span class="availability-badge @(item.IsAvailable ? "available" : "unavailable")">
+                            @(item.IsAvailable ? "Available" : "Unavailable")
+                        </span>
+                    </div>
+
+                    <div class="food-card-body">
+                        <h3>@item.Name</h3>
+
+                        <p class="food-description">
+                            @item.Description
+                        </p>
+
+                        <div class="food-price">
+                            @item.Price.ToString("C", new System.Globalization.CultureInfo("en-ZA"))
+                        </div>
+
+                        <div class="food-card-actions">
+                            <a asp-action="Edit"
+                               asp-route-id="@item.Id"
+                               class="food-action food-edit">
+                                Edit Meal
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@item.Id"
+                               class="food-action food-delete">
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+
+                </article>
+            }
+        </div>
+    }
+
+</section>

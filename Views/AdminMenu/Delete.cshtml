@@ -1,0 +1,128 @@
+
+@model LocalBite.Models.MenuItem
+
+@{
+    ViewData["Title"] = "Delete Meal";
+}
+
+<style>
+    .delete-meal-page {
+        max-width: 650px;
+        margin: 55px auto 80px;
+        padding: 35px;
+        text-align: center;
+        color: #18304b;
+        background: rgba(255,255,255,.76);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        border: 1px solid rgba(255,255,255,.85);
+        border-radius: 28px;
+        box-shadow: 0 15px 45px rgba(31,65,100,.10);
+    }
+
+    .delete-meal-icon {
+        width: 75px;
+        height: 75px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background: #fff0f0;
+        color: #c33c3c;
+        font-size: 32px;
+    }
+
+    .delete-meal-page h1 {
+        font-weight: 850;
+        margin-bottom: 12px;
+    }
+
+    .delete-meal-page p {
+        color: #718096;
+        line-height: 1.7;
+    }
+
+    .delete-meal-image {
+        width: 150px;
+        height: 130px;
+        object-fit: cover;
+        border-radius: 18px;
+        margin: 15px auto;
+    }
+
+    .delete-meal-name {
+        font-size: 21px;
+        font-weight: 800;
+        margin: 10px 0;
+    }
+
+    .delete-meal-price {
+        color: #bd8b28;
+        font-weight: 800;
+        font-size: 19px;
+    }
+
+    .delete-confirm-btn {
+        background: #c83d3d;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        padding: 12px 24px;
+        font-weight: 750;
+    }
+
+    .delete-cancel-btn {
+        color: #2463b5;
+        text-decoration: none;
+        font-weight: 750;
+        margin-left: 15px;
+    }
+</style>
+
+<div class="container">
+    <div class="delete-meal-page">
+
+        <div class="delete-meal-icon">
+            <i class="bi bi-trash"></i>
+        </div>
+
+        <h1>Delete Meal?</h1>
+
+        <p>
+            Are you sure you want to remove this meal from your menu?
+            Please review the details before continuing.
+        </p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl"
+                 alt="@Model.Name"
+                 class="delete-meal-image" />
+        }
+
+        <div class="delete-meal-name">
+            @Model.Name
+        </div>
+
+        <div class="delete-meal-price">
+            R @Model.Price.ToString("N2")
+        </div>
+
+        <form asp-action="Delete"
+              asp-route-id="@Model.Id"
+              method="post"
+              class="mt-4">
+
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="delete-confirm-btn">
+                Confirm Delete
+            </button>
+
+            <a asp-action="Index" class="delete-cancel-btn">
+                Cancel
+            </a>
+        </form>
+
+    </div>
+</div>

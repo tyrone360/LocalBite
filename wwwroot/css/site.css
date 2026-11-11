@@ -1,0 +1,980 @@
+/* =========================================
+   LOCALBITE - COMPACT FLOATING ARCTIC GLASS NAVBAR
+   ========================================= */
+
+body > header {
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+    padding: 8px 0 0;
+    background: transparent;
+}
+.localbite-navbar {
+    position: relative;
+    width: calc(100% - 48px);
+    max-width: 1450px;
+    min-height: 54px;
+    margin: 0 auto 12px;
+    padding: 4px 18px;
+
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.48);
+
+    background: rgba(255, 255, 255, 0.24);
+
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+
+    box-shadow:
+        0 8px 25px rgba(40, 90, 130, 0.09),
+        inset 0 1px 0 rgba(255, 255, 255, 0.55);
+
+    transition:
+        background 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.localbite-navbar:hover {
+    background: rgba(255, 255, 255, 0.36);
+    border-color: rgba(255, 255, 255, 0.75);
+
+    box-shadow:
+        0 12px 30px rgba(40, 90, 130, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.localbite-navbar .navbar-brand {
+    color: #203247 !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    padding: 4px 0;
+}
+
+.localbite-navbar .navbar-brand span {
+    color: #d3a64e;
+}
+
+.localbite-navbar .nav-link {
+    color: #344d65 !important;
+    font-size: 0.88rem;
+    font-weight: 650;
+    padding: 7px 11px !important;
+    border-radius: 30px;
+    transition: all 0.25s ease;
+}
+
+.localbite-navbar .nav-link:hover {
+    color: #287bc5 !important;
+    background: rgba(75, 159, 232, 0.12);
+}
+
+.localbite-navbar .navbar-toggler {
+    border: 1px solid rgba(75, 159, 232, 0.30);
+    border-radius: 50%;
+    padding: 6px;
+}
+
+.localbite-navbar .navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(75, 159, 232, 0.14);
+}
+
+.localbite-navbar .navbar-toggler-icon {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.localbite-navbar .btn {
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+}
+
+/* Smaller profile image */
+
+.localbite-navbar img.rounded-circle,
+.localbite-navbar span.rounded-circle {
+    width: 30px !important;
+    height: 30px !important;
+}
+
+/* Compact mobile navigation */
+
+@media (max-width: 991.98px) {
+    .localbite-navbar {
+        width: calc(100% - 24px);
+        min-height: 52px;
+        padding: 6px 14px;
+        border-radius: 22px;
+        margin-bottom: 10px;
+
+        background: rgba(255, 255, 255, 0.30);
+        backdrop-filter: blur(28px) saturate(180%);
+        -webkit-backdrop-filter: blur(28px) saturate(180%);
+    }
+
+    .localbite-navbar .navbar-collapse {
+        padding-top: 8px;
+    }
+
+    .localbite-navbar .navbar-nav {
+        align-items: flex-start !important;
+    }
+
+    .localbite-navbar .nav-link {
+        padding: 7px 8px !important;
+    }
+
+    .localbite-navbar .btn {
+        margin-top: 5px;
+    }
+}
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.btn {
+    border-radius: 13px;
+    padding: 10px 19px;
+    font-weight: 650;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    color: #fff !important;
+    background: linear-gradient(135deg, #69b9f4, #398bd7) !important;
+    border: none !important;
+    box-shadow: 0 7px 18px rgba(57, 139, 215, 0.22);
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #56a9e8, #287bc5) !important;
+    box-shadow: 0 10px 22px rgba(57, 139, 215, 0.30);
+}
+
+.btn-outline-warning {
+    color: var(--lb-primary-dark) !important;
+    border: 1px solid rgba(75, 159, 232, 0.55) !important;
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.btn-outline-warning:hover {
+    color: white !important;
+    background: var(--lb-primary) !important;
+}
+
+.btn-outline-secondary {
+    border-radius: 13px;
+}
+
+/* =========================================
+   FORMS
+   ========================================= */
+
+.form-control,
+.form-select {
+    min-height: 48px;
+    color: var(--lb-text);
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(125, 165, 195, 0.25);
+    border-radius: 13px;
+    padding: 12px 15px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    color: var(--lb-text);
+    background: white;
+    border-color: var(--lb-primary);
+    box-shadow: 0 0 0 4px rgba(75, 159, 232, 0.13);
+}
+
+.form-control::placeholder {
+    color: #9aabba;
+}
+
+.form-label {
+    color: #52677d;
+    font-weight: 650;
+}
+
+/* =========================================
+   MAIN PAGE AND FOOTER
+   ========================================= */
+
+.container main {
+    min-height: 65vh;
+}
+
+footer {
+    margin-top: 45px;
+    padding: 22px 0;
+    border-color: rgba(125, 165, 195, 0.20) !important;
+}
+
+footer,
+footer a {
+    color: var(--lb-muted) !important;
+}
+
+.text-danger {
+    color: #d95368 !important;
+}
+
+/* =========================================
+   PREMIUM GLASS AUTHENTICATION
+   ========================================= */
+
+.auth-page {
+    min-height: 78vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 45px 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-page::before,
+.auth-page::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.auth-page::before {
+    width: 330px;
+    height: 330px;
+    background: rgba(87, 177, 255, 0.22);
+    top: 5%;
+    left: 5%;
+}
+
+.auth-page::after {
+    width: 280px;
+    height: 280px;
+    background: rgba(220, 184, 103, 0.18);
+    bottom: 3%;
+    right: 5%;
+}
+
+.auth-glass-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 490px;
+    padding: 42px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.48);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow:
+        0 25px 70px rgba(53, 103, 145, 0.13),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+}
+
+.auth-logo {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: #347FC1;
+}
+
+.auth-heading {
+    font-size: clamp(2rem, 5vw, 2.7rem);
+    font-weight: 800;
+    letter-spacing: -1.8px;
+    color: #203247;
+}
+
+.auth-glow {
+    color: #347FC1;
+    text-shadow: 0 0 18px rgba(52, 127, 193, 0.28);
+}
+
+.auth-subtitle {
+    color: #718399;
+    font-size: 0.96rem;
+}
+
+.auth-glass-card .form-control {
+    background: rgba(255, 255, 255, 0.42);
+    border: 1px solid rgba(117, 159, 193, 0.25);
+    border-radius: 15px;
+    min-height: 53px;
+    transition: all 0.25s ease;
+}
+
+.auth-glass-card .form-control:focus {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: #65a9e4;
+    box-shadow:
+        0 0 0 4px rgba(75, 159, 232, 0.12),
+        0 0 20px rgba(75, 159, 232, 0.12);
+}
+
+.auth-glass-card .btn {
+    min-height: 52px;
+    border-radius: 15px;
+}
+
+.auth-gold {
+    color: #ad842f;
+    text-shadow: 0 0 15px rgba(214, 168, 79, 0.2);
+}
+
+.auth-divider {
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(115, 155, 190, 0.35),
+        transparent
+    );
+    margin: 25px 0;
+}
+
+@media (max-width: 576px) {
+    .auth-glass-card {
+        padding: 28px 22px;
+        border-radius: 24px;
+    }
+
+    .auth-page {
+        padding: 25px 12px;
+    }
+}
+
+/* =========================================
+   PREMIUM FOOD HOMEPAGE
+   ========================================= */
+
+.home-page {
+    padding-top: 25px !important;
+}
+
+.home-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+    padding: 48px;
+    background:
+        radial-gradient(circle at 10% 10%, rgba(100, 184, 255, .20), transparent 38%),
+        linear-gradient(135deg, rgba(255,255,255,.94), rgba(226,242,255,.78));
+    border: 1px solid rgba(255,255,255,.9);
+    box-shadow: 0 25px 70px rgba(55,105,145,.12);
+}
+
+.home-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-eyebrow,
+.section-eyebrow {
+    color: #347fc1;
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.hero-title {
+    color: #203247;
+    font-size: clamp(3rem, 6vw, 5.3rem);
+    font-weight: 850;
+    letter-spacing: -4px;
+    line-height: 1.02;
+}
+
+.hero-title span {
+    color: #347fc1;
+    text-shadow: 0 0 25px rgba(75,159,232,.25);
+}
+
+.hero-description {
+    max-width: 470px;
+    color: #718399;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.hero-image-wrap {
+    position: relative;
+    min-height: 390px;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 25px 55px rgba(25,53,80,.22);
+}
+
+.hero-food-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .7s ease;
+}
+
+.hero-image-wrap:hover .hero-food-image {
+    transform: scale(1.06);
+}
+
+.hero-image-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        transparent 35%,
+        rgba(8,22,36,.78) 100%
+    );
+}
+
+.hero-image-glass {
+    position: absolute;
+    z-index: 2;
+    bottom: 25px;
+    left: 25px;
+    right: 25px;
+    padding: 20px;
+    color: white;
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 20px;
+    background: rgba(255,255,255,.15);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.hero-image-glass span {
+    font-size: .68rem;
+    letter-spacing: 2px;
+    font-weight: 800;
+    color: #f1d28c;
+}
+
+.hero-image-glass h3 {
+    font-size: 1.7rem;
+    font-weight: 800;
+    margin: 8px 0 0;
+}
+
+.hero-floating-label {
+    position: absolute;
+    z-index: 3;
+    top: 20px;
+    right: 20px;
+    padding: 12px 17px;
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 50px;
+    background: rgba(255,255,255,.75);
+    backdrop-filter: blur(15px);
+    color: #203247;
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.floating-dot,
+.trust-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #d3a64e;
+    margin-right: 7px;
+}
+
+.hero-trust {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    color: #718399;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.trust-dot {
+    width: 5px;
+    height: 5px;
+    margin: 0;
+}
+
+/* Homepage headings */
+
+.section-heading h2,
+.process-section h2 {
+    color: #203247;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    margin-top: 10px;
+}
+
+.section-heading p,
+.process-section p {
+    color: #718399;
+}
+
+/* Food category cards */
+
+.food-category-card {
+    position: relative;
+    height: 290px;
+    overflow: hidden;
+    border-radius: 23px;
+    box-shadow: 0 15px 35px rgba(35,70,105,.13);
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.food-category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 22px 45px rgba(35,70,105,.22);
+}
+
+.food-category-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .6s ease;
+}
+
+.food-category-card:hover img {
+    transform: scale(1.09);
+}
+
+.food-category-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0,0,0,.02) 20%,
+        rgba(0,0,0,.78) 100%
+    );
+}
+
+.food-category-overlay {
+    position: absolute;
+    z-index: 1;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+}
+
+.food-category-overlay span {
+    color: #f1d28c;
+    font-size: .62rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.food-category-overlay h3 {
+    font-size: 1.65rem;
+    font-weight: 800;
+    margin: 5px 0 0;
+}
+
+.food-category-overlay p {
+    font-size: .82rem;
+    margin: 3px 0 0;
+    color: rgba(255,255,255,.85);
+}
+
+/* How it works */
+
+.process-section {
+    border-radius: 30px;
+}
+
+.process-number {
+    color: #347fc1;
+    font-size: 2.8rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    text-shadow: 0 0 20px rgba(75,159,232,.2);
+    margin-bottom: 12px;
+}
+
+.process-section h4 {
+    color: #203247;
+    font-weight: 800;
+}
+
+.process-section p {
+    max-width: 280px;
+    margin: 10px auto 0;
+    line-height: 1.7;
+}
+
+/* Final call to action */
+
+.home-final-cta {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 65px 25px;
+    border-radius: 30px;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.22), transparent 50%),
+        linear-gradient(130deg, #dcefff, #f8f5ed);
+    border: 1px solid rgba(255,255,255,.9);
+    box-shadow: 0 18px 45px rgba(55,105,145,.10);
+}
+
+.home-final-cta h2 {
+    color: #203247;
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+    font-weight: 850;
+    margin: 12px 0;
+}
+
+.home-final-cta p {
+    color: #718399;
+}
+
+/* Homepage responsive layout */
+
+@media (max-width: 768px) {
+    .home-hero {
+        padding: 27px 22px;
+        border-radius: 24px;
+    }
+
+    .hero-title {
+        letter-spacing: -2px;
+    }
+
+    .hero-image-wrap {
+        min-height: 300px;
+    }
+
+    .food-category-card {
+        height: 220px;
+        border-radius: 18px;
+    }
+
+    .food-category-overlay {
+        left: 13px;
+        bottom: 13px;
+    }
+
+    .food-category-overlay h3 {
+        font-size: 1.3rem;
+    }
+
+    .home-final-cta {
+        padding: 45px 18px;
+    }
+}
+
+/* =========================================
+   PREMIUM LOCALBITE FOOTER
+   ========================================= */
+
+.localbite-footer {
+    margin-top: 65px;
+    padding: 45px 0 25px;
+    background: rgba(255, 255, 255, 0.45);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-brand {
+    font-size: 1.8rem;
+    font-weight: 850;
+    letter-spacing: -1px;
+    color: #347fc1;
+}
+
+.footer-brand span {
+    color: #ad842f;
+}
+
+.localbite-footer p {
+    color: #718399;
+    margin: 8px 0 25px;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(117, 159, 193, 0.2);
+    color: #718399;
+    font-size: .85rem;
+}
+
+.footer-bottom a {
+    color: #347fc1;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.footer-bottom a:hover {
+    color: #ad842f;
+}
+
+@media (max-width: 576px) {
+    .footer-bottom {
+        flex-direction: column;
+    }
+}
+
+/* =========================================
+   SCROLL REVEAL ANIMATIONS
+   ========================================= */
+
+[data-reveal] {
+    opacity: 0;
+    transition:
+        opacity 0.9s ease,
+        transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+}
+
+[data-reveal="up"] {
+    transform: translateY(65px);
+}
+
+[data-reveal="down"] {
+    transform: translateY(-65px);
+}
+
+[data-reveal="left"] {
+    transform: translateX(-75px);
+}
+
+[data-reveal="right"] {
+    transform: translateX(75px);
+}
+
+[data-reveal="zoom"] {
+    transform: scale(0.85);
+}
+
+[data-reveal].revealed {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* =========================================
+   SMALL SCREEN ADJUSTMENTS
+   ========================================= */
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 14px;
+    }
+
+    .card {
+        border-radius: 18px;
+    }
+}
+
+/* =========================================
+   LOCALBITE - DASHBOARD FOOD SLIDESHOW
+   ========================================= */
+
+.dashboard-welcome-image {
+    position: relative;
+    min-height: 300px;
+    overflow: hidden;
+    border-radius: 24px;
+    isolation: isolate;
+    box-shadow: 0 18px 40px rgba(25, 53, 80, .18);
+}
+
+.dashboard-slideshow {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.dashboard-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: dashboardFoodFade 16s infinite;
+}
+
+.dashboard-slide.slide-one {
+    animation-delay: 0s;
+}
+
+.dashboard-slide.slide-two {
+    animation-delay: 4s;
+}
+
+.dashboard-slide.slide-three {
+    animation-delay: 8s;
+}
+
+.dashboard-slide.slide-four {
+    animation-delay: 12s;
+}
+
+.dashboard-welcome-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+        180deg,
+        transparent 25%,
+        rgba(8, 22, 36, .78)
+    );
+}
+
+.dashboard-image-label {
+    position: absolute;
+    z-index: 2;
+    bottom: 20px;
+    left: 22px;
+    color: white;
+    pointer-events: none;
+}
+
+.dashboard-image-label span {
+    color: #f1d28c;
+    font-size: .65rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.dashboard-image-label h3 {
+    color: white;
+    margin-top: 8px;
+    font-size: 1.7rem;
+    font-weight: 800;
+}
+
+.dashboard-slide-indicator {
+    position: absolute;
+    z-index: 3;
+    right: 22px;
+    bottom: 25px;
+    display: flex;
+    gap: 6px;
+}
+
+.dashboard-slide-indicator span {
+    width: 19px;
+    height: 4px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .45);
+}
+
+.dashboard-slide-indicator .indicator-one {
+    animation: indicatorOne 16s infinite;
+}
+
+.dashboard-slide-indicator .indicator-two {
+    animation: indicatorTwo 16s infinite;
+}
+
+.dashboard-slide-indicator .indicator-three {
+    animation: indicatorThree 16s infinite;
+}
+
+.dashboard-slide-indicator .indicator-four {
+    animation: indicatorFour 16s infinite;
+}
+
+/* IMAGE TRANSITIONS */
+
+@keyframes dashboardFoodFade {
+    0%, 22% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+
+    25%, 97% {
+        opacity: 0;
+        transform: scale(1.10);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+}
+
+/* ACTIVE SLIDE INDICATORS */
+
+@keyframes indicatorOne {
+    0%, 24% { background: #d3a64e; }
+    25%, 100% { background: rgba(255,255,255,.45); }
+}
+
+@keyframes indicatorTwo {
+    0%, 24% { background: rgba(255,255,255,.45); }
+    25%, 49% { background: #d3a64e; }
+    50%, 100% { background: rgba(255,255,255,.45); }
+}
+
+@keyframes indicatorThree {
+    0%, 49% { background: rgba(255,255,255,.45); }
+    50%, 74% { background: #d3a64e; }
+    75%, 100% { background: rgba(255,255,255,.45); }
+}
+
+@keyframes indicatorFour {
+    0%, 74% { background: rgba(255,255,255,.45); }
+    75%, 99% { background: #d3a64e; }
+    100% { background: rgba(255,255,255,.45); }
+}
+
+/* MOBILE */
+
+@media (max-width: 767.98px) {
+    .dashboard-welcome-image {
+        min-height: 250px;
+    }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-slide,
+    .dashboard-slide-indicator span {
+        animation: none !important;
+    }
+
+    .dashboard-slide:first-child {
+        opacity: 1;
+    }
+
+    .dashboard-slide:not(:first-child) {
+        opacity: 0;
+    }
+}

@@ -1,0 +1,353 @@
+
+@{
+    ViewData["Title"] = "You're Offline";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#edf3ff" />
+    <title>You're Offline | LocalBite</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #18365f;
+            background:
+                radial-gradient(circle at 15% 15%, rgba(255,255,255,.95), transparent 35%),
+                radial-gradient(circle at 85% 80%, rgba(255,218,153,.35), transparent 35%),
+                linear-gradient(135deg, #e9f1ff, #f9f7f0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            overflow-x: hidden;
+        }
+
+        .offline-shell {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 650px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 30px;
+            padding: 45px;
+            border: 1px solid rgba(255,255,255,.85);
+            border-radius: 38px;
+            background: rgba(255,255,255,.55);
+            box-shadow: 0 30px 90px rgba(37,73,125,.12);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            animation: enter .8s ease both;
+        }
+
+        .offline-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 55px;
+        }
+
+        .offline-brand img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .brand-caption {
+            color: #54708f;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .offline-copy {
+            padding: 10px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 15px;
+            border-radius: 30px;
+            background: rgba(255,255,255,.8);
+            border: 1px solid rgba(220,160,58,.25);
+            color: #a47726;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d5a13c;
+            box-shadow: 0 0 12px rgba(213,161,60,.7);
+        }
+
+        h1 {
+            margin: 25px 0 18px;
+            font-size: clamp(40px, 5vw, 65px);
+            line-height: 1.04;
+            letter-spacing: -3px;
+            font-weight: 850;
+        }
+
+        h1 span {
+            color: #3974c1;
+            text-shadow: 0 5px 20px rgba(57,116,193,.13);
+        }
+
+        .description {
+            max-width: 430px;
+            color: #72839a;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+
+        .offline-actions {
+            display: flex;
+            margin-top: 32px;
+        }
+
+        .retry-button {
+            border: 0;
+            border-radius: 50px;
+            padding: 16px 25px;
+            background: linear-gradient(120deg, #3679d0, #174783);
+            color: white;
+            font-size: 14px;
+            font-weight: 750;
+            cursor: pointer;
+            box-shadow: 0 12px 25px rgba(36,100,189,.23);
+            transition: .25s ease;
+        }
+
+        .retry-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 17px 30px rgba(36,100,189,.3);
+        }
+
+        .connection-message {
+            min-height: 22px;
+            margin-top: 20px;
+            color: #68809d;
+            font-size: 12px;
+        }
+
+        .offline-art {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .offline-art img {
+            display: block;
+            width: 100%;
+            max-width: 570px;
+            filter: drop-shadow(0 25px 30px rgba(35,68,112,.12));
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .art-orbit {
+            position: absolute;
+            width: 75%;
+            aspect-ratio: 1;
+            border: 1px solid rgba(71,126,195,.15);
+            border-radius: 50%;
+            animation: rotate 24s linear infinite;
+            pointer-events: none;
+        }
+
+        .art-orbit::before,
+        .art-orbit::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e4b75c;
+            box-shadow: 0 0 18px rgba(228,183,92,.55);
+        }
+
+        .art-orbit::before {
+            top: 12%;
+            left: 14%;
+        }
+
+        .art-orbit::after {
+            right: 7%;
+            bottom: 20%;
+            width: 8px;
+            height: 8px;
+            background: #4d85ce;
+        }
+
+        .offline-footer {
+            position: fixed;
+            bottom: 18px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 11px;
+            letter-spacing: .5px;
+        }
+
+        @@keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-13px); }
+        }
+
+        @@keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        @@keyframes enter {
+            from { opacity: 0; transform: translateY(22px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @@media (max-width: 760px) {
+            body {
+                padding: 15px;
+                align-items: flex-start;
+            }
+
+            .offline-shell {
+                grid-template-columns: 1fr;
+                gap: 0;
+                padding: 25px 20px 35px;
+                border-radius: 28px;
+                margin: 15px 0 45px;
+            }
+
+            .offline-brand {
+                margin-bottom: 35px;
+            }
+
+            .offline-copy {
+                padding: 0;
+                order: 1;
+            }
+
+            .offline-art {
+                order: 2;
+                margin-top: 5px;
+            }
+
+            .offline-art img {
+                max-width: 400px;
+            }
+
+            h1 {
+                font-size: clamp(42px, 12vw, 58px);
+            }
+
+            .description {
+                font-size: 14px;
+            }
+
+            .offline-footer {
+                position: static;
+                margin-top: 5px;
+            }
+        }
+
+        @@media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="offline-shell">
+        <section class="offline-copy">
+            <div class="offline-brand">
+                <img src="/images/branding/restaurant-mark.svg"
+                     alt="Restaurant logo" />
+                <span class="brand-caption">GOOD FOOD. GOOD MOOD.</span>
+            </div>
+
+            <div class="status-pill">
+                <span class="status-dot"></span>
+                CONNECTION INTERRUPTED
+            </div>
+
+            <h1>
+                A little<br />
+                <span>offline moment.</span>
+            </h1>
+
+            <p class="description">
+                Looks like your internet connection took a little break.
+                Your next delicious moment is still waiting.
+                Reconnect and we'll get you back to the good stuff.
+            </p>
+
+            <div class="offline-actions">
+                <button class="retry-button" onclick="retryConnection()">
+                    Try again <span aria-hidden="true">↗</span>
+                </button>
+            </div>
+
+            <p class="connection-message" id="connectionMessage"
+               role="status" aria-live="polite">
+                Waiting for your connection...
+            </p>
+        </section>
+
+        <section class="offline-art" aria-label="Food delivery illustration">
+            <div class="art-orbit"></div>
+            <img src="/images/branding/offline-illustration.svg"
+                 alt="Illustration of a food delivery bag and floating food" />
+        </section>
+    </main>
+
+    <footer class="offline-footer">
+        © 2026 Conny's Restaurant · Made for food lovers
+    </footer>
+
+    <script>
+        const message = document.getElementById("connectionMessage");
+
+        function retryConnection() {
+            message.textContent = "Checking your connection...";
+
+            if (navigator.onLine) {
+                window.location.href = "/";
+            } else {
+                message.textContent =
+                    "Still offline. Please check your internet connection.";
+            }
+        }
+
+        window.addEventListener("online", () => {
+            message.textContent = "You're back online! Taking you home...";
+            setTimeout(() => window.location.href = "/", 1000);
+        });
+
+        window.addEventListener("offline", () => {
+            message.textContent =
+                "Your connection was interrupted. We'll be here when you're back.";
+        });
+    </script>
+</body>
+</html>
