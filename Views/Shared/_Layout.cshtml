@@ -1,4 +1,4 @@
-﻿
+
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<IdentityUser> UserManager
 
@@ -32,6 +32,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#173f79" />
+    <link rel="manifest" href="@Url.Content("~/manifest.json")" />
+    <link rel="apple-touch-icon" href="~/images/branding/icon-192.png" />
     <title>@ViewData["Title"] - LocalBite</title>
 
     <script type="importmap"></script>
