@@ -102,7 +102,25 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Description" class="form-label">Description</label>
+                <label asp-for="Category" class="form-label">
+                    Food Category
+                </label>
+                <select asp-for="Category" class="form-control">
+                    <option value="Pizza">Pizza</option>
+                    <option value="Milkshakes">Milkshakes</option>
+                    <option value="Burgers">Burgers</option>
+                    <option value="Chicken">Chicken</option>
+                    <option value="Soft Drinks">Soft Drinks</option>
+                    <option value="Other">Other</option>
+                </select>
+                <span asp-validation-for="Category"
+                      class="field-validation-error"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">
+                    Description
+                </label>
                 <textarea asp-for="Description"
                           class="form-control"
                           rows="3"></textarea>
@@ -122,7 +140,9 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="ImageUrl" class="form-label">Meal Image Path</label>
+                <label asp-for="ImageUrl" class="form-label">
+                    Meal Image Path
+                </label>
                 <input asp-for="ImageUrl" class="form-control" />
                 <span asp-validation-for="ImageUrl"
                       class="field-validation-error"></span>

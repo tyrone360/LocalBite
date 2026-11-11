@@ -34,7 +34,7 @@ public class AdminMenuController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
-        [Bind("Name,Description,Price,ImageUrl,IsAvailable")]
+        [Bind("Name,Category,Description,Price,ImageUrl,IsAvailable")]
         MenuItem menuItem)
     {
         if (!ModelState.IsValid)
@@ -62,7 +62,7 @@ public class AdminMenuController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
         int id,
-        [Bind("Id,Name,Description,Price,ImageUrl,IsAvailable")]
+        [Bind("Id,Name,Category,Description,Price,ImageUrl,IsAvailable")]
         MenuItem menuItem)
     {
         if (id != menuItem.Id)

@@ -4,11 +4,31 @@
 @{
     ViewData["Title"] = "Our Menu";
     var zar = System.Globalization.CultureInfo.GetCultureInfo("en-ZA");
+
+    var menuItems = Model.ToList();
+
+    var mainCategories = new[]
+    {
+        "Pizza",
+        "Milkshakes",
+        "Burgers",
+        "Chicken",
+        "Soft Drinks"
+    };
+
+    var extraCategories = menuItems
+        .Select(item => item.Category)
+        .Where(category => !string.IsNullOrWhiteSpace(category))
+        .Where(category => !mainCategories.Contains(category, StringComparer.OrdinalIgnoreCase))
+        .Distinct(StringComparer.OrdinalIgnoreCase)
+        .ToList();
+
+    var allCategories = mainCategories.Concat(extraCategories).ToList();
 }
 
-<div class="container py-5 menu-page">
+<div class="container py-5 menu-page" id="menu-top">
 
-    <section class="menu-hero mb-5">
+    <section class="menu-hero mb-4">
         <div class="menu-hero-top">
             <div>
                 <span class="menu-eyebrow">FRESHLY PREPARED FOR YOU</span>
@@ -31,18 +51,34 @@
         </div>
     }
 
-    <div class="menu-section-heading mb-4">
+    <div class="menu-category-bar mb-5">
+        <a href="#menu-all" class="menu-category-link menu-all-link">
+            All
+        </a>
+
+        @foreach (var category in allCategories)
+        {
+            var categoryId = "category-" +
+                category.Replace(" ", "-").ToLowerInvariant();
+
+            <a href="#@categoryId" class="menu-category-link">
+                @category
+            </a>
+        }
+    </div>
+
+    <div class="menu-section-heading mb-4" id="menu-all">
         <div>
             <span class="menu-eyebrow">MADE FOR YOUR CRAVINGS</span>
             <h2>Today's selection</h2>
         </div>
 
         <span class="menu-count">
-            @Model.Count() @(Model.Count() == 1 ? "ITEM" : "ITEMS")
+            @menuItems.Count @(menuItems.Count == 1 ? "ITEM" : "ITEMS")
         </span>
     </div>
 
-    @if (!Model.Any())
+    @if (!menuItems.Any())
     {
         <section class="menu-empty">
             <h3>Our menu is getting ready.</h3>
@@ -51,78 +87,122 @@
     }
     else
     {
-        <div class="row g-4">
+        @foreach (var category in allCategories)
+        {
+            var categoryId = "category-" +
+                category.Replace(" ", "-").ToLowerInvariant();
 
-            @foreach (var item in Model)
-            {
-                <div class="col-sm-6 col-lg-4 col-xl-3">
-                    <article class="menu-food-card">
+            var categoryItems = menuItems
+                .Where(item => string.Equals(
+                    item.Category,
+                    category,
+                    StringComparison.OrdinalIgnoreCase))
+                .ToList();
 
-                        <div class="menu-food-image-wrap">
-                            @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
-                            {
-                                <img src="@item.ImageUrl"
-                                     alt="@item.Name"
-                                     class="menu-food-image" />
-                            }
-                            else
-                            {
-                                <div class="menu-no-image">
-                                    LOCALBITE
-                                </div>
-                            }
+            <section class="menu-category-section mb-5" id="@categoryId">
 
-                            <span class="menu-availability">
-                                Available
-                            </span>
-                        </div>
+                <div class="menu-section-heading mb-4">
+                    <div>
+                        <span class="menu-eyebrow">LOCALBITE COLLECTION</span>
+                        <h2>@category</h2>
+                    </div>
 
-                        <div class="menu-food-content">
-                            <span class="menu-food-label">LOCALBITE SELECTION</span>
-
-                            <h3>@item.Name</h3>
-
-                            <p>
-                                @(string.IsNullOrWhiteSpace(item.Description)
-                                    ? "Prepared fresh for your enjoyment."
-                                    : item.Description)
-                            </p>
-
-                            <div class="menu-food-bottom">
-                                <strong>
-                                    @item.Price.ToString("C2", zar)
-                                </strong>
-                                <span>Fresh choice</span>
-                            </div>
-
-                            <form asp-controller="Cart"
-                                  asp-action="Add"
-                                  method="post"
-                                  class="menu-add-form">
-
-                                @Html.AntiForgeryToken()
-
-                                <input type="hidden"
-                                       name="menuItemId"
-                                       value="@item.Id" />
-
-                                <input type="hidden"
-                                       name="quantity"
-                                       value="1" />
-
-                                <button type="submit"
-                                        class="btn btn-warning w-100">
-                                    + Add to Cart
-                                </button>
-
-                            </form>
-                        </div>
-
-                    </article>
+                    <span class="menu-count">
+                        @categoryItems.Count
+                        @(categoryItems.Count == 1 ? "ITEM" : "ITEMS")
+                    </span>
                 </div>
-            }
 
-        </div>
+                @if (!categoryItems.Any())
+                {
+                    <div class="menu-category-empty">
+                        <span>Coming soon</span>
+                        <p>We're preparing delicious options for this category.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="row g-4">
+
+                        @foreach (var item in categoryItems)
+                        {
+                            <div class="col-sm-6 col-lg-4 col-xl-3">
+                                <article class="menu-food-card">
+
+                                    <div class="menu-food-image-wrap">
+                                        @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                                        {
+                                            <img src="@item.ImageUrl"
+                                                 alt="@item.Name"
+                                                 class="menu-food-image"
+                                                 loading="lazy" />
+                                        }
+                                        else
+                                        {
+                                            <div class="menu-no-image">
+                                                LOCALBITE
+                                            </div>
+                                        }
+
+                                        <span class="menu-availability">
+                                            Available
+                                        </span>
+                                    </div>
+
+                                    <div class="menu-food-content">
+
+                                        <span class="menu-food-label">
+                                            @category.ToUpperInvariant()
+                                        </span>
+
+                                        <h3>@item.Name</h3>
+
+                                        <p>
+                                            @(string.IsNullOrWhiteSpace(item.Description)
+                                                ? "Prepared fresh for your enjoyment."
+                                                : item.Description)
+                                        </p>
+
+                                        <div class="menu-food-bottom">
+                                            <strong>
+                                                @item.Price.ToString("C2", zar)
+                                            </strong>
+
+                                            <span>Fresh choice</span>
+                                        </div>
+
+                                        <form asp-controller="Cart"
+                                              asp-action="Add"
+                                              method="post"
+                                              class="menu-add-form">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <input type="hidden"
+                                                   name="menuItemId"
+                                                   value="@item.Id" />
+
+                                            <input type="hidden"
+                                                   name="quantity"
+                                                   value="1" />
+
+                                            <button type="submit"
+                                                    class="btn btn-warning w-100">
+                                                + Add to Cart
+                                            </button>
+
+                                        </form>
+                                    </div>
+
+                                </article>
+                            </div>
+                        }
+
+                    </div>
+                }
+
+            </section>
+        }
     }
 
     <div class="menu-back-link mt-5">
@@ -134,6 +214,10 @@
 </div>
 
 <style>
+    html {
+        scroll-behavior: smooth;
+    }
+
     .menu-page {
         min-height: 65vh;
     }
@@ -204,17 +288,109 @@
         font-weight: 700;
     }
 
+    /* Transparent, free-flowing category navigation */
+    .menu-category-bar {
+        position: sticky;
+        top: 80px;
+        z-index: 20;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 27px;
+
+        padding: 12px 8px;
+        overflow-x: auto;
+
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+
+        scrollbar-width: none;
+    }
+
+    .menu-category-bar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .menu-category-link {
+        flex-shrink: 0;
+        position: relative;
+
+        padding: 7px 0;
+
+        color: #526b83;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+
+        font-size: .82rem;
+        font-weight: 700;
+        letter-spacing: .2px;
+
+        text-decoration: none;
+        transition: color .25s ease;
+    }
+
+    .menu-category-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+
+        width: 0;
+        height: 2px;
+
+        background: #c49a45;
+        border-radius: 5px;
+
+        transition: width .25s ease;
+    }
+
+    .menu-category-link:hover,
+    .menu-category-link:focus {
+        color: #347fc1;
+        background: transparent;
+        transform: none;
+    }
+
+    .menu-category-link:hover::after,
+    .menu-category-link:focus::after {
+        width: 100%;
+    }
+
+    .menu-all-link {
+        color: #347fc1;
+        background: transparent;
+        font-weight: 850;
+    }
+
+    .menu-all-link::after {
+        width: 100%;
+    }
+
     .menu-section-heading {
         display: flex;
         align-items: end;
         justify-content: space-between;
         gap: 15px;
+        scroll-margin-top: 165px;
     }
 
     .menu-section-heading h2 {
         margin: 8px 0 0;
         color: #203247;
         font-weight: 850;
+    }
+
+    .menu-category-section {
+        scroll-margin-top: 165px;
+        animation: menuFadeIn .5s ease both;
     }
 
     .menu-count {
@@ -339,11 +515,13 @@
         font-weight: 800;
     }
 
-    .menu-empty {
-        padding: 60px 25px;
+    .menu-empty,
+    .menu-category-empty {
+        padding: 40px 25px;
         text-align: center;
         border-radius: 25px;
         background: rgba(255,255,255,.65);
+        border: 1px solid rgba(255,255,255,.9);
         color: #718399;
     }
 
@@ -352,10 +530,32 @@
         font-weight: 850;
     }
 
+    .menu-category-empty span {
+        color: #347fc1;
+        font-weight: 850;
+        font-size: 1.1rem;
+    }
+
+    .menu-category-empty p {
+        margin: 8px 0 0;
+    }
+
     .menu-back-link a {
         color: #347fc1;
         font-weight: 750;
         text-decoration: none;
+    }
+
+    @@keyframes menuFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     @@media (max-width: 576px) {
@@ -370,6 +570,37 @@
 
         .menu-food-image-wrap {
             height: 190px;
+        }
+
+        .menu-category-bar {
+            top: 65px;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            gap: 23px;
+            padding: 10px 4px;
+        }
+
+        .menu-category-link {
+            padding: 8px 0;
+            font-size: .78rem;
+        }
+
+        .menu-section-heading {
+            scroll-margin-top: 130px;
+        }
+
+        .menu-category-section {
+            scroll-margin-top: 130px;
+        }
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        .menu-category-section {
+            animation: none;
         }
     }
 </style>

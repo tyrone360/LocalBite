@@ -12,3 +12,7 @@ obj/
 
 # IDE files
 .vs/
+
+# Local database backups and temporary files
+LocalBite-Production.sql
+Views/Shared/_Layout.cshtml.backup
